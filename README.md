@@ -71,3 +71,29 @@ Analyse du cas d'utilisation
 
 ### Étape 1 : création de la commande ayant les propriétés demandées. 
 
+
+### Etape 2 : instanciation du commande handler
+
+
+### Etape 3 : methode handler qui retour un model
+
+
+### Etape 4 : Injection Presenteur
+
+#### Pattern Presenteur
+#### Injection de dépendance
+#### Inversion de dépendance
+
+### Etape 5 : Insertion des erreurs
+
+#### Pourquoi commencer par les erreurs : ref clean code
+
+### Etape 6 : Regle métier
+
+#### Différence entre test unitaire et test d'intégration
+#### Concept du mock
+#### Container de dépencance
+
+### Pyramide des tests
+
+
