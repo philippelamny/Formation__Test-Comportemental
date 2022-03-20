@@ -12,15 +12,17 @@
 ## Qu est-ce que c'est?
 
 Le test comportemental est un ensemble de test qui va décrire le comportement que l'on souhaite pour un cas d utilisation donnée.
+Dans le trio des "D", nous retrouvons le BDD "Behavior Driven Developement". Un concept permettant de décrire tout un jeu d'exemples permettant de clarifier le cas d'utilisation.
 
 ## Pourquoi
 
-Il va décrire l ensemble des comportements décrites dans les spécifications metiers du cas d'utilisation de manière unitaire.
+Il va décrire l ensemble des comportements décrits dans les spécifications "métiers" du cas d'utilisation.
 
 De manière unitaire, tous les comportements doivent apparaître lors de l'exécution des tests.
 
 Les noms des tests doivent être compréhensifs par Le métier.
-Cela va permettre de créer des documentations dynamiques et vérifier si nous avons le comportement voulu.
+
+Cela va permettre de créer de la documentation dynamique et vérifier si nous avons le comportement voulu.
 
 Il n'est pas utile d'avoir tous les détails de l'implémentation dans le nom.
 
@@ -59,9 +61,9 @@ Tout au long du cas pratique, nous introduirons des concepts utiles pour écrire
 En tant que administrateur du site, je souhaite pouvoir créer un produit.
 
 Ce produit aura les propriétés suivantes:
-•  Nom du produit (obligatoire)
-• Catégorie du produit (obligatoire, enumeration: volley, foot, natation, badminton)
-• Description
+- Nom du produit (obligatoire)
+- Catégorie du produit (obligatoire, enumeration: volley, foot, natation, badminton)
+- Description
 
 Si l'un des champs obligatoire n'est pas rempli ou qui n'est pas valide, le produit ne peut être créé et l'administrateur doit en être informé.
 
@@ -90,5 +92,3 @@ Analyse du cas d'utilisation
 #### Container de dépencance
 
 ### Pyramide des tests
-
-
