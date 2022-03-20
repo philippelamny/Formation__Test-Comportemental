@@ -71,22 +71,17 @@ Analyse du cas d'utilisation
 
 ### Étape 1 : création de la commande ayant les propriétés demandées. 
 
-
 ### Etape 2 : instanciation du commande handler
-
 
 ### Etape 3 : methode handler qui retour un model
 
-
 ### Etape 4 : Injection Presenteur
 
-#### Pattern Presenteur
+#### Principe du Presenteur
 #### Injection de dépendance
 #### Inversion de dépendance
 
-### Etape 5 : Insertion des erreurs
-
-#### Pourquoi commencer par les erreurs : ref clean code
+### Etape 5 : gestion des contraintes :  Insertion des erreurs
 
 ### Etape 6 : Regle métier
 

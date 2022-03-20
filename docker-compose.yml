@@ -1,0 +1,18 @@
+---
+version: '3'
+services:
+  ftcphp:
+    image: php
+    working_dir: /home/ftc
+    volumes:
+      - .:/home/ftc
+    networks:
+      default:
+
+  ftccomposer:
+    image: composer
+    working_dir: /home/ftc
+    volumes:
+      - .:/home/ftc
+    networks:
+      default:
