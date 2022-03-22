@@ -104,7 +104,7 @@
       </interpreter>
     </phpInfoCache>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />
   <component name="PhpUnit">
     <phpunit_settings>
       <phpunit_by_interpreter interpreter_id="5491d98e-3cd3-467d-a703-49398b350bf5" bootstrap_file_path="/home/ftc/bootstrap.php" custom_loader_path="/home/ftc/vendor/autoload.php" phpunit_phar_path="" use_bootstrap_file="true" />

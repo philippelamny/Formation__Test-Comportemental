@@ -43,6 +43,7 @@ Il est important que les noms soient normalisés par l'équipe car comme pour le
 Il y a différents types de test (Integration, Unitaire, EndToEnd). 
 Ici nous allons nous concentrer sur les unitaires, c'est à dire sur une class spécifique et notamment sur son comportement.
 Ce qui veut dire qu'on ne teste pas une structure (ex: data transfert object "DTO") mais un object (class avec des regles métiers).
+Concept du FIRST
 
 ### Typologie
 
@@ -73,7 +74,113 @@ Analyse du cas d'utilisation
 
 ### Étape 1 : création de la "command" ayant les propriétés demandées. 
 
+#### Creation class CreationPrduitCommandHandlerTest
+
+#### Creation Methode testInstanciationCreationProduitCommand
+
+#### On instancie la commande avec des valeurs Obligatoire et description
+
+```php
+<?php
+namespace Trung\Ftc\Test;
+use PHPUnit\Framework\TestCase;
+class CreationPrduitCommandHandlerTest extends TestCase
+{
+    /**
+     * Ce test est vraiment inutilie grace au paramètre nommé et au propriété public
+     * Il nous sert juste de guide pour creer notre command
+     * Ce test pourra etre supprimé apres que le test soit passé au vert ou bien etre modifié pour la suite
+     * @test
+     */
+    public function instanciationCreationProduitCommand(): void
+    {
+        $expectedName = "NomDuProduit";
+        $expectedCategorie = "volley";
+        $expectedDescription = "description du produit";
+        //Concept du DTP
+        $command = new CreationProduitCommand(
+            nom: $expectedName,
+            categorie: $expectedCategorie
+        );
+        $command->description = $expectedDescription;
+        $this->assertEquals($expectedName, $command->nom);
+        $this->assertEquals($expectedCategorie, $command->categorie);
+        $this->assertEquals($expectedDescription, $command->description);
+    }
+}
+```
+
+#### On lance le test, ça plante => Concept du Red Green Refacto
+
+#### Grave à l'éditeur, nous pouvons générer les class automatiquement.
+
+Le plus important et le plus dur est de trouver le bon namespace / naming qui fit bienavec le cas d'utilisation
+=> Alt + enter  sur le nom de la command
+
+```php
+<?php
+namespace Trung\Ftc\Test;
+class CreationProduitCommand
+{
+    public function __construct(
+        public string $nom,
+        public string $categorie,
+        public string $description = ""
+    ) {}
+}
+```
+
 ### Etape 2 : instanciation du commandHandler
+
+#### test : instanciationCreationProduitCommandHandler
+
+```php
+    /**
+     * Comme pour le précedent, ce test nous juste à creer notre handler
+     * Le handler étant représentatif de notre cas d'utilisation
+     * C'est donc ce handler qui sera testé unitairement
+     * Apres le Green, on pourra le mettre dans le setup du test
+     * @test
+     */
+    public function instanciationCreationProduitCommandHandler(): void
+    {
+        $handler = new CreationProduitCommandHandler();
+        $this->assertInstanceOf(CreationProduitCommandHandler::class, $handler);
+    }
+```
+
+#### Creation automatique de la class handler pour faire passer au green
+
+```php
+<?php
+namespace Trung\Ftc\Test;
+class CreationProduitCommandHandler
+{
+    /**
+     * CreationProduitCommandHandler constructor.
+     */
+    public function __construct()
+    {
+    }
+}
+```
+
+#### setup de la classe de test avec l'instance de la commandeHandler en private.
+Cela va permettre de gérer les dépendances qu'à un seul endroit.
+
+```php  
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->creationProduitCommandeHandler = new CreationProduitCommandHandler();
+    }
+```
+
+==> Alt + enter sur creationProduitCommandeHandler pour générer la prop en private
+
+```php
+    private CreationProduitCommandHandler $creationProduitCommandeHandler;
+```
 
 ### Etape 3 : methode handle qui retour un model
 
