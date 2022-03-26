@@ -47,6 +47,26 @@ class CreationPrduitCommandHandlerTest extends TestCase
         $this->assertInstanceOf(CreationProduitCommandHandler::class, $handler);
     }
 
+    /**
+     * @test
+     */
+    public function handleWithCommandAndReturnProduitModel(): void
+    {
+        $expectedName = "NomDuProduit";
+        $expectedCategorie = "volley";
+        $expectedDescription = "description du produit";
+
+        // Concept du DTP
+        $command = new CreationProduitCommand(
+            nom: $expectedName,
+            categorie: $expectedCategorie
+        );
+        $command->description = $expectedDescription;
+        $model = $this->creationProduitCommandeHandler->handle($command);
+
+        $this->assertInstanceOf(ProduitModel::class, $model);
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

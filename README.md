@@ -43,7 +43,14 @@ Il est important que les noms soient normalisés par l'équipe car comme pour le
 Il y a différents types de test (Integration, Unitaire, EndToEnd). 
 Ici nous allons nous concentrer sur les unitaires, c'est à dire sur une class spécifique et notamment sur son comportement.
 Ce qui veut dire qu'on ne teste pas une structure (ex: data transfert object "DTO") mais un object (class avec des regles métiers).
-Concept du FIRST
+Concept du FIRST:
+- Fast
+- independant / isolate
+  Triple A (Arrange, Act, Assert)
+- Repeatable
+- Self Validation
+- Thorough : couverture de tous les cas et non 100% des données
+
 
 ### Typologie
 
@@ -110,11 +117,11 @@ class CreationPrduitCommandHandlerTest extends TestCase
 }
 ```
 
-#### On lance le test, ça plante => Concept du Red Green Refacto
+#### On lance le test, ça plante => Concept du Red Green Refacto (Baby step)
 
 #### Grave à l'éditeur, nous pouvons générer les class automatiquement.
 
-Le plus important et le plus dur est de trouver le bon namespace / naming qui fit bienavec le cas d'utilisation
+Le plus important et le plus dur est de trouver le bon namespace / naming qui fit bien avec le cas d'utilisation
 => Alt + enter  sur le nom de la command
 
 ```php
@@ -135,6 +142,10 @@ class CreationProduitCommand
 #### test : instanciationCreationProduitCommandHandler
 
 ```php
+class CreationPrduitCommandHandlerTest extends TestCase
+{
+
+    // .................
     /**
      * Comme pour le précedent, ce test nous juste à creer notre handler
      * Le handler étant représentatif de notre cas d'utilisation
@@ -147,6 +158,7 @@ class CreationProduitCommand
         $handler = new CreationProduitCommandHandler();
         $this->assertInstanceOf(CreationProduitCommandHandler::class, $handler);
     }
+}
 ```
 
 #### Creation automatique de la class handler pour faire passer au green
@@ -168,21 +180,67 @@ class CreationProduitCommandHandler
 #### setup de la classe de test avec l'instance de la commandeHandler en private.
 Cela va permettre de gérer les dépendances qu'à un seul endroit.
 
-```php  
+```php
+
+class CreationPrduitCommandHandlerTest extends TestCase
+{
+    // .....
     protected function setUp(): void
     {
         parent::setUp();
         $this->creationProduitCommandeHandler = new CreationProduitCommandHandler();
     }
+    //.....
+}
 ```
 
 ==> Alt + enter sur creationProduitCommandeHandler pour générer la prop en private
 
 ```php
+class CreationPrduitCommandHandlerTest extends TestCase
+{
+    // ....
     private CreationProduitCommandHandler $creationProduitCommandeHandler;
+    // .....
+}
 ```
 
 ### Etape 3 : methode handle qui retour un model
+
+Attention à ne pas confondre l'objet model avec l'objet model de Eloquent et l'entity de doctrine.
+L'object model est representatif des informations liées aux spécifications métier!
+Souvent, le repository gere l'intéraction avec la base de donnée et renvoie une collection de model ou un model.
+Rajoutons notre handle qui prend en parametre la command et en retour, un ProduitModel
+
+Les suffixes command, commandHandler, Model ne sont généralement pas utiles. En équipe, il est important de se mettre d'accord sur la nomenclature
+
+```php
+
+class CreationPrduitCommandHandlerTest extends TestCase
+{
+    // .....
+    /**
+     * @test
+     */
+    public function handleWithCommandAndReturnProduitModel(): void
+    {
+        $expectedName = "NomDuProduit";
+        $expectedCategorie = "volley";
+        $expectedDescription = "description du produit";
+
+        // Concept du DTP
+        $command = new CreationProduitCommand(
+            nom: $expectedName,
+            categorie: $expectedCategorie
+        );
+        $command->description = $expectedDescription;
+        $model = $this->creationProduitCommandeHandler->handle($command);
+        
+        $this->assertInstanceOf(ProduitModel::class, $model);
+    }
+    //.....
+}
+```
 
 ### Etape 4 : Injection Presenteur
 
