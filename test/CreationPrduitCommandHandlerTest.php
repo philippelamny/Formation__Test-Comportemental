@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 class CreationPrduitCommandHandlerTest extends TestCase
 {
     private CreationProduitCommandHandler $creationProduitCommandeHandler;
+    private CreationProduitJsonPresenteur $creationProduitPresenter;
 
     /**
      * Ce test est vraiment inutilie grace au paramètre nommé et au propriété public
@@ -42,7 +43,8 @@ class CreationPrduitCommandHandlerTest extends TestCase
      */
     public function instanciationCreationProduitCommandHandler(): void
     {
-        $handler = new CreationProduitCommandHandler();
+        $presenter = new CreationProduitJsonPresenteur();
+        $handler = new CreationProduitCommandHandler($presenter);
 
         $this->assertInstanceOf(CreationProduitCommandHandler::class, $handler);
     }
@@ -70,6 +72,7 @@ class CreationPrduitCommandHandlerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->creationProduitCommandeHandler = new CreationProduitCommandHandler();
+        $this->creationProduitPresenter = new CreationProduitJsonPresenteur();
+        $this->creationProduitCommandeHandler = new CreationProduitCommandHandler($this->creationProduitPresenter);
     }
 }

@@ -4,13 +4,16 @@
 namespace Trung\Ftc\Test;
 
 
-class CreationProduitCommandHandler
-{
+class CreationProduitCommandHandler {
 
-    /**
-     * CreationProduitCommandHandler constructor.
-     */
-    public function __construct()
+    public function __construct(private CreationProduitPresenteur $creationProduitPresenter)
     {
+    }
+
+    public function handle(CreationProduitCommand $command): ProduitModel
+    {
+        $model = new ProduitModel();
+        $this->creationProduitPresenter->affecteModel($model);
+        return $model;
     }
 }

@@ -242,13 +242,194 @@ class CreationPrduitCommandHandlerTest extends TestCase
 }
 ```
 
+#### Creation automatique du model
+
+```php
+<?php
+
+
+namespace Trung\Ftc\Test;
+
+
+class ProduitModel
+{
+} 
+```
+
+#### Creation automatique de la methode handle
+
+```php
+class CreationProduitCommandHandler
+{
+
+    /**
+     * CreationProduitCommandHandler constructor.
+     */
+    public function __construct()
+    {
+    }
+
+    public function handle(CreationProduitCommand $command): ProduitModel
+    {
+        return new ProduitModel();
+    }
+}
+```
+
 ### Etape 4 : Injection Presenteur
+
+Cette partie est vraiment optionelle. Elle palie à des soucis de performance
 
 ### Principe du Presenteur
 
+C'est une abstraction permettant de retourner différent type de données pour le meme cas d'utilisation en fonction du device et type de retour.
+C'est le principe du "O" Open/close du SOLID. Ouvert à l'évolution et fermé à la modification
+Ici, le présenteur sera une sorte de container qui aura comme contrat, une methode permettant de renseigner le model et une méthode qui retournera de la data à renvoyer dans l'action du controller
+
 ### Injection de dépendance
 
+Avec le presenteur, la commandHandler ne sera plus obligée de retourner un object.
+En effet, on va injecter la dependance du présenteur dans le constructeur du handler.
+Dans la methode handle, on affectera le model au présenteur.
+
 ### Inversion de dépendance
+
+Le principe d'inversion de dépendance est très simple et utilisé sans connaitre le principe.
+Le but est de pouvoir faire travailler un objet sans connaitre la nature de l'implémenteur avec une abstraction contenant des contracts.
+En fait, ça consiste à injecter la dependance avec une interface.
+
+#### Injecter une instance du presenteur JSON Dans le setup et le test de creation du handler, 
+
+##### Modifier le test d'instanciation du handler
+
+```php
+    public function instanciationCreationProduitCommandHandler(): void
+    {
+        $presenter = new CreationProduitJsonPresenteur();
+        $handler = new CreationProduitCommandHandler($presenter);
+
+        $this->assertInstanceOf(CreationProduitCommandHandler::class, $handler);
+    }
+```
+
+##### Modifier le setup avec une instanciation du handler en prop
+
+```php
+
+    private CreationProduitJsonPresenteur $creationProduitPresenter;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->creationProduitPresenter = new CreationProduitJsonPresenteur();
+        $this->creationProduitCommandeHandler = new CreationProduitCommandHandler($this->creationProduitPresenter);
+    }
+```
+
+##### Creation de la class CreationProduitJsonPresenteur
+
+```php
+<?php
+
+namespace Trung\Ftc\Test;
+
+class CreationProduitJsonPresenteur
+{
+    
+}
+```
+
+##### Ajout le parametre du presenteur dans le construct du handler
+
+```php
+<?php
+
+
+namespace Trung\Ftc\Test;
+
+
+class CreationProduitCommandHandler {
+    
+    public function __construct(private CreationProduitJsonPresenteur $creationProduitPresenter)
+    {
+    }
+        
+    //.................
+}
+```
+
+================> On vient d'injecter la dependance. Maintenant, nous allons interfacer le presenteur
+
+##### Creation de l'interface CreationProduitPresenteur
+Faire implémenter CreationProduitJsonPresenteur sur cette nouvelle class avec comme contrat une methode permettant de spécifier le model
+L'autre méthode n'est pas encore utilisée. Le TDD, va nous permettre de coder le moins possible pour valider le comportement
+
+```php
+<?php 
+// CreationProduitJsonPresenteur.php
+
+namespace Trung\Ftc\Test;
+
+class CreationProduitJsonPresenteur implements CreationProduitPresenteur
+{
+
+}
+
+// CreationProduitPresenteur.php
+
+namespace Trung\Ftc\Test;
+
+
+interface CreationProduitPresenteur
+{
+
+}
+
+```
+###### Dans le handler, on affecte le model au presenteur
+
+```php
+
+    public function handle(CreationProduitCommand $command): ProduitModel
+    {
+        $model = new ProduitModel();
+        $this->creationProduitPresenter->affecteModel($model);
+        return $model;
+    }
+```
+
+```php
+
+namespace Trung\Ftc\Test;
+
+class CreationProduitJsonPresenteur implements CreationProduitPresenteur
+{
+
+    public function affecteModel(ProduitModel $model): array
+    {
+        return [];
+    }
+}
+```
+
+###### On change la signature du présenteur avec l'interface
+
+```php
+    public function __construct(private CreationProduitPresenteur $creationProduitPresenter)
+    {
+    }
+```
+
+###### On ajoute le contrat
+
+```php
+namespace Trung\Ftc\Test;
+
+interface CreationProduitPresenteur
+{
+    public function affecteModel(ProduitModel $model): array;
+}
+```
 
 ### Etape 5 : gestion des contraintes :  Insertion des erreurs
 
