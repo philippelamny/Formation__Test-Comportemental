@@ -9,6 +9,18 @@ class CreationPrduitCommandHandlerTest extends TestCase
 {
     private CreationProduitCommandHandler $creationProduitCommandeHandler;
     private CreationProduitJsonPresenteur $creationProduitPresenter;
+    private ProduitRepository             $produitRepository;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->creationProduitPresenter = new CreationProduitJsonPresenteur();
+        $this->produitRepository = $this->createMock(ProduitRepository::class);
+        $this->creationProduitCommandeHandler = new CreationProduitCommandHandler(
+            creationProduitPresenter: $this->creationProduitPresenter,
+            produitRepository: $this->produitRepository
+        );
+    }
 
     /**
      * Ce test est vraiment inutilie grace au paramètre nommé et au propriété public
@@ -44,7 +56,7 @@ class CreationPrduitCommandHandlerTest extends TestCase
     public function instanciationCreationProduitCommandHandler(): void
     {
         $presenter = new CreationProduitJsonPresenteur();
-        $handler = new CreationProduitCommandHandler($presenter);
+        $handler = new CreationProduitCommandHandler($presenter, $this->produitRepository);
 
         $this->assertInstanceOf(CreationProduitCommandHandler::class, $handler);
     }
@@ -69,10 +81,23 @@ class CreationPrduitCommandHandlerTest extends TestCase
         $this->assertInstanceOf(ProduitModel::class, $model);
     }
 
-    protected function setUp(): void
+    /**
+     * @test 
+     */
+    public function creationNouveauProduitAvecUnNomExistant(): void
     {
-        parent::setUp();
-        $this->creationProduitPresenter = new CreationProduitJsonPresenteur();
-        $this->creationProduitCommandeHandler = new CreationProduitCommandHandler($this->creationProduitPresenter);
+        // On mock le retour pour simuler le comporter de l'interface en exist
+        $this->produitRepository->method('isExist')->willReturn(true);
+        $existingName = "Trungproduit";
+        $cat = "volley";
+        $command = new CreationProduitCommand(
+            nom: $existingName,
+            categorie: $cat
+        );
+
+        $this->expectExceptionCode("500");
+
+        $this->creationProduitCommandeHandler->handle($command);
+
     }
 }

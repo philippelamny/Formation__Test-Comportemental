@@ -433,7 +433,133 @@ interface CreationProduitPresenteur
 
 ### Etape 5 : gestion des contraintes :  Insertion des erreurs
 
-### Etape 6 : Regle métier
+#### 5.1 Test Unicité du nom
+
+Ce test va nous conduire à créer:
+- le répository (interface) qui va nous permettre de faire la vérification avec une fonction dans le handler
+- On mockera l'interface et l'implémentation du repo se fera de manière indépendante.
+- Gestion d'exception
+
+##### Creation d'un nouveau test qui permet de vérifier l'unicité et l'erreur renvoyée.
+
+
+```php
+    /**
+     * @test 
+     */
+    public function creationNouveauProduitAvecUnNomExistant(): void
+    {
+        $existingName = "Trungproduit";
+        $cat = "volley";
+        $command = new CreationProduitCommand(
+            nom: $existingName,
+            categorie: $cat
+        );
+
+        $this->expectExceptionCode("500");
+
+        $this->creationProduitCommandeHandler->handle($command);
+
+    }
+```
+
+##### Implementation dans le handler la verification
+
+```php
+
+class CreationProduitCommandHandler {
+    
+    public function __construct(
+        private CreationProduitPresenteur $creationProduitPresenter,
+        private ProduitRepository $produitRepository,
+    )
+    {
+    }
+
+    public function handle(CreationProduitCommand $command): ProduitModel
+    {
+        if ($this->produitRepository->isExist($command->nom)) {
+            throw new \Exception("produit déjà existant", 500);
+        }
+
+        $model = new ProduitModel();
+        $this->creationProduitPresenter->affecteModel($model);
+        return $model;
+    }
+} 
+```
+
+##### Creation l'interface ProduitRepository et du contrat isExist
+
+```php
+<?php
+
+namespace Trung\Ftc\Test;
+
+interface ProduitRepository
+{
+
+    public function isExist(string $nom): bool;
+}
+```
+
+##### Creation Mock ProduitRepository et l'injecter dans le constructeur du setup
+
+Dans cette partie, il aurait été préférable d'injecter dans le constructeur du setup avant de creer l'interface.
+Il arrive qu'on bypass certaine étape pour faciliter la vie.
+
+```php
+    // ......
+    private ProduitRepository             $produitRepository;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->creationProduitPresenter = new CreationProduitJsonPresenteur();
+        $this->produitRepository = $this->createMock(ProduitRepository::class);
+        $this->creationProduitCommandeHandler = new CreationProduitCommandHandler(
+            creationProduitPresenter: $this->creationProduitPresenter,
+            produitRepository: $this->produitRepository
+        );
+    }
+    // ...........
+```
+
+##### Mock le retour de la fonction isExist
+
+```php
+    /**
+     * @test 
+     */
+    public function creationNouveauProduitAvecUnNomExistant(): void
+    {
+        // On mock le retour pour simuler le comporter de l'interface en exist
+        $this->produitRepository->method('isExist')->willReturn(true);
+        $existingName = "Trungproduit";
+        $cat = "volley";
+        $command = new CreationProduitCommand(
+            nom: $existingName,
+            categorie: $cat
+        );
+
+        $this->expectExceptionCode("500");
+
+        $this->creationProduitCommandeHandler->handle($command);
+
+    }
+```
+
+##### Suppression test inutile
+
+Si vous relancez l'ensemble des tests, il y a le test instanciationCreationProduitCommandHandler qui va etre en erreur.
+Ce test nous servait juste à creer la class CommandHandler. Il n'est plus utilise de laisser executer et maintenir ce test.
+On peut le supprimer pour diminuer le cout.
+
+#### 5.2 Test Champs obligatoire
+
+
+### Etape 6 : Creation du produit
+
 
 ### Différence entre test unitaire et test d'intégration
 
