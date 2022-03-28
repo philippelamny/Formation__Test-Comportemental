@@ -557,19 +557,142 @@ On peut le supprimer pour diminuer le cout.
 
 #### 5.2 Test Champs obligatoire
 
+Cette partie peut etre faite de différente manière: 
+- depuis le controller
+- depuis un middleware pour les openApi
+- directement dans la commande (version simple mais plutot dans un value object (notion en DDD))
+- dans le handler (Comme ici)
+
+##### 5.2.1 Test champs nom vide
+
+###### creation test creationNouveauProduitSansNom
+
+On ne teste pas le null car sinon on teste le typage!
+
+```php
+    /**
+     * @test
+     */
+    public function creationNouveauProduitSansNom(): void
+    {
+        $emptyName = "";
+        $cat = "volley";
+        $command = new CreationProduitCommand(nom: $emptyName, categorie: $cat);
+
+        $this->expectExceptionCode("7000");
+
+        $this->creationProduitCommandeHandler->handle($command);
+    }
+```
+
+###### implémentation de l'erreur dans le handler
+/!\ n'oublie pas le Red Green (Refacto) !! Le red green pour permet de valider que votre test est utile
+
+```php
+class CreationProduitCommandHandler {
+    //.....
+    
+    public function handle(CreationProduitCommand $command): ProduitModel
+    {
+        if(empty($command->nom)) {
+            throw new \Exception("le nom du produit doit etre spécifié", 7000);
+        }
+        // ......
+    }
+}
+```
+
+
+##### 5.2.2 Test champs categorie vide
+
+###### creation test creationNouveauProduitSansCategorie
+
+```php
+    /**
+     * @test
+     */
+    public function creationNouveauProduitSansCategorie(): void
+    {
+        $name = "nouveauProduit";
+        $cat = "";
+        $command = new CreationProduitCommand(nom: $name, categorie: $cat);
+
+        $this->expectExceptionCode("7001");
+
+        $this->creationProduitCommandeHandler->handle($command);
+    }
+```
+
+###### implémentation de l'erreur dans le handler
+
+```php
+    public function handle(CreationProduitCommand $command): ProduitModel
+    {
+        // ......
+        if (empty($command->categorie)) {
+            throw new \Exception("la catégorie doit être spécifiée", 7001);
+        }
+        // ......
+    }
+```
+
+##### 5.2.2 Test champs categorie inconnue
+
+###### creation test creationNouveauProduitAvecCategorieInconnue
+
+```php
+    /**
+     * @test 
+     */
+    public function creationNouveauProduitAvecCategorieInconnue(): void
+    {
+        $name = "nouveauProduit";
+        $cat = "categorieIncoonnue";
+        $command = new CreationProduitCommand(nom: $name, categorie: $cat);
+
+        $this->expectExceptionCode("7002");
+
+        $this->creationProduitCommandeHandler->handle($command);
+    }
+```
+
+###### implémentation de l'erreur dans le handler
+
+```php
+
+class CreationProduitCommandHandler {
+
+    public const CATEGORIES_LISTES = [
+        'volley', 'foot', 'natation', 'badminton'
+    ];
+
+    // ......
+
+    public function handle(CreationProduitCommand $command): ProduitModel
+    {
+        //.....
+        if (empty($command->categorie)) {
+            throw new \Exception("la catégorie doit être spécifiée", 7001);
+        }
+
+        if (!in_array($command->categorie, static::CATEGORIES_LISTES)) {
+            throw new \Exception("La catégorie renseignée n'est pas trouvée", 7002);
+        }
+        // .....
+    }
+}
+```
+
+Nous pouvons écrire un test permettant de valider si la catégorie existe mais dans notre context, c'est déjà testé par transitivité (par d'autres tests)
+Nous pouvons aussi faire un test pour certifier que notre liste ne change pas! c'est à l'équipe d'en décider.
 
 ### Etape 6 : Creation du produit
 
-
 ### Différence entre test unitaire et test d'intégration
-
-### Concept du mock
-
-### Etape 7 : mock les différents services
 
 ### Test collaborative Vs Test denouement
 
-### Etape 8 : gestion InMemory
+### Etape 7 : gestion InMemory
 
 ### Container de dépendance
 
@@ -577,7 +700,7 @@ On peut le supprimer pour diminuer le cout.
 
 ### Test end to end
 
-### Etape 9 : test controller
+### Etape 8 : test controller
 
 ### Possibilité de mettre en prod avec les tests de denouement grace au InMemory
 

@@ -100,4 +100,46 @@ class CreationPrduitCommandHandlerTest extends TestCase
         $this->creationProduitCommandeHandler->handle($command);
 
     }
+
+    /**
+     * @test
+     */
+    public function creationNouveauProduitSansNom(): void
+    {
+        $emptyName = "";
+        $cat = "volley";
+        $command = new CreationProduitCommand(nom: $emptyName, categorie: $cat);
+
+        $this->expectExceptionCode("7000");
+
+        $this->creationProduitCommandeHandler->handle($command);
+    }
+
+    /**
+     * @test
+     */
+    public function creationNouveauProduitSansCategorie(): void
+    {
+        $name = "nouveauProduit";
+        $cat = "";
+        $command = new CreationProduitCommand(nom: $name, categorie: $cat);
+
+        $this->expectExceptionCode("7001");
+
+        $this->creationProduitCommandeHandler->handle($command);
+    }
+
+    /**
+     * @test
+     */
+    public function creationNouveauProduitAvecCategorieInconnue(): void
+    {
+        $name = "nouveauProduit";
+        $cat = "categorieIncoonnue";
+        $command = new CreationProduitCommand(nom: $name, categorie: $cat);
+
+        $this->expectExceptionCode("7002");
+
+        $this->creationProduitCommandeHandler->handle($command);
+    }
 }
