@@ -2,72 +2,80 @@
 
 # Sommaire
 
-pour générer : https://luciopaiva.com/markdown-toc/
-
 - [Formation Informelle sur les Tests Comportementaux](#formation-informelle-sur-les-tests-comportementaux)
-  - [Concepts requis:](#concepts-requis)
-  - [Qu est-ce que c'est](#qu-est-ce-que-cest)
-  - [Pourquoi](#pourquoi)
-    - [Ex:](#ex)
-  - [Test unitaire](#test-unitaire)
-    - [Typologie](#typologie)
-  - [Cas pratique](#cas-pratique)
-    - [Cas de utilisation:](#cas-de-utilisation)
-    - [Étape 1 : création de la "command" ayant les propriétés demandées.](#tape-1--cration-de-la-command-ayant-les-proprits-demandes)
-      - [Creation class CreationPrduitCommandHandlerTest](#creation-class-creationprduitcommandhandlertest)
-      - [Creation Methode testInstanciationCreationProduitCommand](#creation-methode-testinstanciationcreationproduitcommand)
-      - [On instancie la commande avec des valeurs Obligatoire et description](#on-instancie-la-commande-avec-des-valeurs-obligatoire-et-description)
-      - [On lance le test, ça plante => Concept du Red Green Refacto (Baby step)](#on-lance-le-test-a-plante--concept-du-red-green-refacto-baby-step)
-      - [Grave à l'éditeur, nous pouvons générer les class automatiquement.](#grave--lditeur-nous-pouvons-gnrer-les-class-automatiquement)
-    - [Etape 2 : instanciation du commandHandler](#etape-2--instanciation-du-commandhandler)
-      - [test : instanciationCreationProduitCommandHandler](#test--instanciationcreationproduitcommandhandler)
-      - [Creation automatique de la class handler pour faire passer au green](#creation-automatique-de-la-class-handler-pour-faire-passer-au-green)
-      - [setup de la classe de test avec l'instance de la commandeHandler en private.](#setup-de-la-classe-de-test-avec-linstance-de-la-commandehandler-en-private)
-    - [Etape 3 : methode handle qui retour un model](#etape-3--methode-handle-qui-retour-un-model)
-      - [Creation automatique du model](#creation-automatique-du-model)
-      - [Creation automatique de la methode handle](#creation-automatique-de-la-methode-handle)
-    - [Etape 4 : Injection Presenteur](#etape-4--injection-presenteur)
-    - [Principe du Presenteur](#principe-du-presenteur)
-    - [Injection de dépendance](#injection-de-dpendance)
-    - [Inversion de dépendance](#inversion-de-dpendance)
-      - [Injecter une instance du presenteur JSON Dans le setup et le test de creation du handler,](#injecter-une-instance-du-presenteur-json-dans-le-setup-et-le-test-de-creation-du-handler)
-        - [Modifier le test d'instanciation du handler](#modifier-le-test-dinstanciation-du-handler)
-        - [Modifier le setup avec une instanciation du handler en prop](#modifier-le-setup-avec-une-instanciation-du-handler-en-prop)
-        - [Creation de la class CreationProduitJsonPresenteur](#creation-de-la-class-creationproduitjsonpresenteur)
-        - [Ajout le parametre du presenteur dans le construct du handler](#ajout-le-parametre-du-presenteur-dans-le-construct-du-handler)
-        - [Creation de l'interface CreationProduitPresenteur](#creation-de-linterface-creationproduitpresenteur)
-          - [Dans le handler, on affecte le model au presenteur](#dans-le-handler-on-affecte-le-model-au-presenteur)
-          - [On change la signature du présenteur avec l'interface](#on-change-la-signature-du-prsenteur-avec-linterface)
-          - [On ajoute le contrat](#on-ajoute-le-contrat)
-    - [Etape 5 : gestion des contraintes :  Insertion des erreurs](#etape-5--gestion-des-contraintes---insertion-des-erreurs)
-      - [5.1 Test Unicité du nom](#51-test-unicit-du-nom)
-        - [Creation d'un nouveau test qui permet de vérifier l'unicité et l'erreur renvoyée.](#creation-dun-nouveau-test-qui-permet-de-vrifier-lunicit-et-lerreur-renvoye)
-        - [Implementation dans le handler la verification](#implementation-dans-le-handler-la-verification)
-        - [Creation l'interface ProduitRepository et du contrat isExist](#creation-linterface-produitrepository-et-du-contrat-isexist)
-        - [Creation Mock ProduitRepository et l'injecter dans le constructeur du setup](#creation-mock-produitrepository-et-linjecter-dans-le-constructeur-du-setup)
-        - [Mock le retour de la fonction isExist](#mock-le-retour-de-la-fonction-isexist)
-        - [Suppression test inutile](#suppression-test-inutile)
-      - [5.2 Test Champs obligatoire](#52-test-champs-obligatoire)
-        - [5.2.1 Test champs nom vide](#521-test-champs-nom-vide)
-          - [creation test creationNouveauProduitSansNom](#creation-test-creationnouveauproduitsansnom)
-          - [implémentation de l'erreur dans le handler](#implmentation-de-lerreur-dans-le-handler)
-        - [5.2.2 Test champs categorie vide](#522-test-champs-categorie-vide)
-          - [creation test creationNouveauProduitSansCategorie](#creation-test-creationnouveauproduitsanscategorie)
-          - [implémentation de l'erreur dans le handler](#implmentation-de-lerreur-dans-le-handler)
-        - [5.2.2 Test champs categorie inconnue](#522-test-champs-categorie-inconnue)
-          - [creation test creationNouveauProduitAvecCategorieInconnue](#creation-test-creationnouveauproduitaveccategorieinconnue)
-          - [implémentation de l'erreur dans le handler](#implmentation-de-lerreur-dans-le-handler)
-    - [Etape 6 : Creation du produit](#etape-6--creation-du-produit)
-    - [Différence entre test unitaire et test d'intégration](#diffrence-entre-test-unitaire-et-test-dintgration)
-    - [Test collaborative Vs Test denouement](#test-collaborative-vs-test-denouement)
-    - [Etape 7 : gestion InMemory](#etape-7--gestion-inmemory)
-    - [Container de dépendance](#container-de-dpendance)
-    - [Pyramide des tests](#pyramide-des-tests)
-    - [Test end to end](#test-end-to-end)
-    - [Etape 8 : test controller](#etape-8--test-controller)
-    - [Possibilité de mettre en prod avec les tests de denouement grace au InMemory](#possibilit-de-mettre-en-prod-avec-les-tests-de-denouement-grace-au-inmemory)
+- [Sommaire](#sommaire)
+- [Concepts requis:](#concepts-requis-)
+- [Qu est-ce que c'est](#qu-est-ce-que-c-est)
+- [Pourquoi](#pourquoi)
+- [Test unitaire](#test-unitaire)
+- [Typologie](#typologie)
+- [Cas pratique](#cas-pratique)
+- [Cas de utilisation:](#cas-de-utilisation-)
+  * [Étape 1 : création de la "command" ayant les propriétés demandées.](#-tape-1---cr-ation-de-la--command--ayant-les-propri-t-s-demand-es)
+    + [Creation class CreationPrduitCommandHandlerTest](#creation-class-creationprduitcommandhandlertest)
+    + [Creation Methode testInstanciationCreationProduitCommand](#creation-methode-testinstanciationcreationproduitcommand)
+    + [On instancie la commande avec des valeurs Obligatoire et description](#on-instancie-la-commande-avec-des-valeurs-obligatoire-et-description)
+    + [On lance le test, ça plante => Concept du Red Green Refacto (Baby step)](#on-lance-le-test---a-plante----concept-du-red-green-refacto--baby-step-)
+    + [Grave à l'éditeur, nous pouvons générer les class automatiquement.](#grave---l--diteur--nous-pouvons-g-n-rer-les-class-automatiquement)
+  * [Etape 2 : instanciation du commandHandler](#etape-2---instanciation-du-commandhandler)
+    + [test : instanciationCreationProduitCommandHandler](#test---instanciationcreationproduitcommandhandler)
+    + [Creation automatique de la class handler pour faire passer au green](#creation-automatique-de-la-class-handler-pour-faire-passer-au-green)
+    + [setup de la classe de test avec l'instance de la commandeHandler en private.](#setup-de-la-classe-de-test-avec-l-instance-de-la-commandehandler-en-private)
+  * [Etape 3 : methode handle qui retour un model](#etape-3---methode-handle-qui-retour-un-model)
+    + [Creation automatique du model](#creation-automatique-du-model)
+    + [Creation automatique de la methode handle](#creation-automatique-de-la-methode-handle)
+  * [Etape 4 : Injection Presenteur](#etape-4---injection-presenteur)
+  * [Principe du Presenteur](#principe-du-presenteur)
+  * [Injection de dépendance](#injection-de-d-pendance)
+  * [Inversion de dépendance](#inversion-de-d-pendance)
+    + [Injecter une instance du presenteur JSON Dans le setup et le test de creation du handler,](#injecter-une-instance-du-presenteur-json-dans-le-setup-et-le-test-de-creation-du-handler-)
+      - [Modifier le test d'instanciation du handler](#modifier-le-test-d-instanciation-du-handler)
+      - [Modifier le setup avec une instanciation du handler en prop](#modifier-le-setup-avec-une-instanciation-du-handler-en-prop)
+      - [Creation de la class CreationProduitJsonPresenteur](#creation-de-la-class-creationproduitjsonpresenteur)
+      - [Ajout le parametre du presenteur dans le construct du handler](#ajout-le-parametre-du-presenteur-dans-le-construct-du-handler)
+      - [Creation de l'interface CreationProduitPresenteur](#creation-de-l-interface-creationproduitpresenteur)
+        * [Dans le handler, on affecte le model au presenteur](#dans-le-handler--on-affecte-le-model-au-presenteur)
+        * [On change la signature du présenteur avec l'interface](#on-change-la-signature-du-pr-senteur-avec-l-interface)
+        * [On ajoute le contrat](#on-ajoute-le-contrat)
+  * [Etape 5 : gestion des contraintes :  Insertion des erreurs](#etape-5---gestion-des-contraintes----insertion-des-erreurs)
+    + [5.1 Test Unicité du nom](#51-test-unicit--du-nom)
+      - [Creation d'un nouveau test qui permet de vérifier l'unicité et l'erreur renvoyée.](#creation-d-un-nouveau-test-qui-permet-de-v-rifier-l-unicit--et-l-erreur-renvoy-e)
+      - [Implementation dans le handler la verification](#implementation-dans-le-handler-la-verification)
+      - [Creation l'interface ProduitRepository et du contrat isExist](#creation-l-interface-produitrepository-et-du-contrat-isexist)
+      - [Creation Mock ProduitRepository et l'injecter dans le constructeur du setup](#creation-mock-produitrepository-et-l-injecter-dans-le-constructeur-du-setup)
+      - [Mock le retour de la fonction isExist](#mock-le-retour-de-la-fonction-isexist)
+      - [Suppression test inutile](#suppression-test-inutile)
+    + [5.2 Test Champs obligatoire](#52-test-champs-obligatoire)
+      - [5.2.1 Test champs nom vide](#521-test-champs-nom-vide)
+        * [creation test creationNouveauProduitSansNom](#creation-test-creationnouveauproduitsansnom)
+        * [implémentation de l'erreur dans le handler](#impl-mentation-de-l-erreur-dans-le-handler)
+      - [5.2.2 Test champs categorie vide](#522-test-champs-categorie-vide)
+        * [creation test creationNouveauProduitSansCategorie](#creation-test-creationnouveauproduitsanscategorie)
+        * [implémentation de l'erreur dans le handler](#impl-mentation-de-l-erreur-dans-le-handler-1)
+      - [5.2.2 Test champs categorie inconnue](#522-test-champs-categorie-inconnue)
+        * [creation test creationNouveauProduitAvecCategorieInconnue](#creation-test-creationnouveauproduitaveccategorieinconnue)
+        * [implémentation de l'erreur dans le handler](#impl-mentation-de-l-erreur-dans-le-handler-2)
+  * [Etape 6 : Creation du produit](#etape-6---creation-du-produit)
+    + [Creation creationNouveauProduitSaveCalled](#creation-creationnouveauproduitsavecalled)
+    + [implementer le save dans le handle](#implementer-le-save-dans-le-handle)
+    + [Ajouter le contract à l'interface](#ajouter-le-contract---l-interface)
+    + [Relance le test, et ça devrait passer](#relance-le-test--et--a-devrait-passer)
+    + [Creation creationNouveauProduitSaved](#creation-creationnouveauproduitsaved)
+    + [Mettre à jour le constructeur du ProduitModel](#mettre---jour-le-constructeur-du-produitmodel)
+    + [Mettre à jour le handler pour que ça soit la méthode "save" du repo qui fournit le model du produit](#mettre---jour-le-handler-pour-que--a-soit-la-m-thode--save--du-repo-qui-fournit-le-model-du-produit)
+    + [Modifier la signature du contrat "save"](#modifier-la-signature-du-contrat--save-)
+  * [Relancer tous les tests et normalement tout est vert](#relancer-tous-les-tests-et-normalement-tout-est-vert)
+- [Différence entre test unitaire et test d'intégration](#diff-rence-entre-test-unitaire-et-test-d-int-gration)
+- [Test collaborative Vs Test denouement](#test-collaborative-vs-test-denouement)
+- [Test end to end](#test-end-to-end)
+- [Pyramide des tests](#pyramide-des-tests)
+- [Des concepts pour faciliter le developpement](#des-concepts-pour-faciliter-le-developpement)
+- [Feedback des etudiants](#feedback-des-etudiants)
 
-## Concepts requis:
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
+# Concepts requis:
 
 - concept de cas d'utilisation
 - autowirering
@@ -76,12 +84,12 @@ pour générer : https://luciopaiva.com/markdown-toc/
 - test unitaire
 - mock
 
-## Qu est-ce que c'est
+# Qu est-ce que c'est
 
 Le test comportemental est un ensemble de test qui va décrire le comportement que l'on souhaite pour un cas d utilisation donnée.
 Dans le trio des "D", nous retrouvons le BDD "Behavior Driven Developement". Un concept permettant de décrire tout un jeu d'exemples permettant de clarifier le cas d'utilisation.
 
-## Pourquoi
+# Pourquoi
 
 Il va décrire l ensemble des comportements décrits dans les spécifications "métiers" du cas d'utilisation.
 
@@ -97,7 +105,7 @@ L'utilité des tests est d'avoir un garde fou sur les cas indésirables. Mais le
 
 Si les tests se basent sur l'aspect technique de l'implémentation, il sera difficile de maintenir la documentation car la technique reste du bas niveau et lors d'une refactorisation, on devra modifier le test (surtout les noms pour rester en adéquation avec la refacto), alors que le comportement n'est jamais censé changer.
 
-### Ex:
+Ex:
 Bas niveau: then throw exception name already exist
 Haut niveau: inform name already exist
 
@@ -105,7 +113,7 @@ Pensez au prochain collègue qui va passer sur vos tests. Il aura une meilleur c
 
 Il est important que les noms soient normalisés par l'équipe car comme pour le code, on ne doit pas distinguer le code de chacun (utopique)
 
-## Test unitaire
+# Test unitaire
 
 Il y a différents types de test (Integration, Unitaire, EndToEnd). 
 Ici nous allons nous concentrer sur les unitaires, c'est à dire sur une class spécifique et notamment sur son comportement.
@@ -119,7 +127,7 @@ Concept du FIRST:
 - Thorough : couverture de tous les cas et non 100% des données
 
 
-### Typologie
+# Typologie
 
 Dans le cas pratique, nous allons utiliser les typologies suivants:
 - notre DTO d'entrée s'appellera Command
@@ -127,11 +135,11 @@ Dans le cas pratique, nous allons utiliser les typologies suivants:
 - Les objects métiers seront des Models
 - Les dépendances seront des services
 
-## Cas pratique
+# Cas pratique
 
 Tout au long du cas pratique, nous introduirons des concepts utiles pour écrire des tests unitaires
 
-### Cas de utilisation:
+# Cas de utilisation:
 
 En tant que administrateur du site, je souhaite pouvoir créer un produit.
 
@@ -146,13 +154,13 @@ Lors que le produit est créé, l'administrateur va etre redirigé vers la page 
 
 Analyse du cas d'utilisation
 
-### Étape 1 : création de la "command" ayant les propriétés demandées. 
+## Étape 1 : création de la "command" ayant les propriétés demandées. 
 
-#### Creation class CreationPrduitCommandHandlerTest
+### Creation class CreationPrduitCommandHandlerTest
 
-#### Creation Methode testInstanciationCreationProduitCommand
+### Creation Methode testInstanciationCreationProduitCommand
 
-#### On instancie la commande avec des valeurs Obligatoire et description
+### On instancie la commande avec des valeurs Obligatoire et description
 
 ```php
 <?php
@@ -184,9 +192,9 @@ class CreationPrduitCommandHandlerTest extends TestCase
 }
 ```
 
-#### On lance le test, ça plante => Concept du Red Green Refacto (Baby step)
+### On lance le test, ça plante => Concept du Red Green Refacto (Baby step)
 
-#### Grave à l'éditeur, nous pouvons générer les class automatiquement.
+### Grave à l'éditeur, nous pouvons générer les class automatiquement.
 
 Le plus important et le plus dur est de trouver le bon namespace / naming qui fit bien avec le cas d'utilisation
 => Alt + enter  sur le nom de la command
@@ -204,9 +212,9 @@ class CreationProduitCommand
 }
 ```
 
-### Etape 2 : instanciation du commandHandler
+## Etape 2 : instanciation du commandHandler
 
-#### test : instanciationCreationProduitCommandHandler
+### test : instanciationCreationProduitCommandHandler
 
 ```php
 class CreationPrduitCommandHandlerTest extends TestCase
@@ -228,7 +236,7 @@ class CreationPrduitCommandHandlerTest extends TestCase
 }
 ```
 
-#### Creation automatique de la class handler pour faire passer au green
+### Creation automatique de la class handler pour faire passer au green
 
 ```php
 <?php
@@ -244,7 +252,7 @@ class CreationProduitCommandHandler
 }
 ```
 
-#### setup de la classe de test avec l'instance de la commandeHandler en private.
+### setup de la classe de test avec l'instance de la commandeHandler en private.
 Cela va permettre de gérer les dépendances qu'à un seul endroit.
 
 ```php
@@ -272,7 +280,7 @@ class CreationPrduitCommandHandlerTest extends TestCase
 }
 ```
 
-### Etape 3 : methode handle qui retour un model
+## Etape 3 : methode handle qui retour un model
 
 Attention à ne pas confondre l'objet model avec l'objet model de Eloquent et l'entity de doctrine.
 L'object model est representatif des informations liées aux spécifications métier!
@@ -309,7 +317,7 @@ class CreationPrduitCommandHandlerTest extends TestCase
 }
 ```
 
-#### Creation automatique du model
+### Creation automatique du model
 
 ```php
 <?php
@@ -323,7 +331,7 @@ class ProduitModel
 } 
 ```
 
-#### Creation automatique de la methode handle
+### Creation automatique de la methode handle
 
 ```php
 class CreationProduitCommandHandler
@@ -343,31 +351,31 @@ class CreationProduitCommandHandler
 }
 ```
 
-### Etape 4 : Injection Presenteur
+## Etape 4 : Injection Presenteur
 
 Cette partie est vraiment optionelle. Elle palie à des soucis de performance
 
-### Principe du Presenteur
+## Principe du Presenteur
 
 C'est une abstraction permettant de retourner différent type de données pour le meme cas d'utilisation en fonction du device et type de retour.
 C'est le principe du "O" Open/close du SOLID. Ouvert à l'évolution et fermé à la modification
 Ici, le présenteur sera une sorte de container qui aura comme contrat, une methode permettant de renseigner le model et une méthode qui retournera de la data à renvoyer dans l'action du controller
 
-### Injection de dépendance
+## Injection de dépendance
 
 Avec le presenteur, la commandHandler ne sera plus obligée de retourner un object.
 En effet, on va injecter la dependance du présenteur dans le constructeur du handler.
 Dans la methode handle, on affectera le model au présenteur.
 
-### Inversion de dépendance
+## Inversion de dépendance
 
 Le principe d'inversion de dépendance est très simple et utilisé sans connaitre le principe.
 Le but est de pouvoir faire travailler un objet sans connaitre la nature de l'implémenteur avec une abstraction contenant des contracts.
 En fait, ça consiste à injecter la dependance avec une interface.
 
-#### Injecter une instance du presenteur JSON Dans le setup et le test de creation du handler, 
+### Injecter une instance du presenteur JSON Dans le setup et le test de creation du handler, 
 
-##### Modifier le test d'instanciation du handler
+#### Modifier le test d'instanciation du handler
 
 ```php
     public function instanciationCreationProduitCommandHandler(): void
@@ -379,7 +387,7 @@ En fait, ça consiste à injecter la dependance avec une interface.
     }
 ```
 
-##### Modifier le setup avec une instanciation du handler en prop
+#### Modifier le setup avec une instanciation du handler en prop
 
 ```php
 
@@ -393,7 +401,7 @@ En fait, ça consiste à injecter la dependance avec une interface.
     }
 ```
 
-##### Creation de la class CreationProduitJsonPresenteur
+#### Creation de la class CreationProduitJsonPresenteur
 
 ```php
 <?php
@@ -406,7 +414,7 @@ class CreationProduitJsonPresenteur
 }
 ```
 
-##### Ajout le parametre du presenteur dans le construct du handler
+#### Ajout le parametre du presenteur dans le construct du handler
 
 ```php
 <?php
@@ -427,7 +435,7 @@ class CreationProduitCommandHandler {
 
 ================> On vient d'injecter la dependance. Maintenant, nous allons interfacer le presenteur
 
-##### Creation de l'interface CreationProduitPresenteur
+#### Creation de l'interface CreationProduitPresenteur
 Faire implémenter CreationProduitJsonPresenteur sur cette nouvelle class avec comme contrat une methode permettant de spécifier le model
 L'autre méthode n'est pas encore utilisée. Le TDD, va nous permettre de coder le moins possible pour valider le comportement
 
@@ -453,7 +461,7 @@ interface CreationProduitPresenteur
 }
 
 ```
-###### Dans le handler, on affecte le model au presenteur
+##### Dans le handler, on affecte le model au presenteur
 
 ```php
 
@@ -479,7 +487,7 @@ class CreationProduitJsonPresenteur implements CreationProduitPresenteur
 }
 ```
 
-###### On change la signature du présenteur avec l'interface
+##### On change la signature du présenteur avec l'interface
 
 ```php
     public function __construct(private CreationProduitPresenteur $creationProduitPresenter)
@@ -487,7 +495,7 @@ class CreationProduitJsonPresenteur implements CreationProduitPresenteur
     }
 ```
 
-###### On ajoute le contrat
+##### On ajoute le contrat
 
 ```php
 namespace Trung\Ftc\Test;
@@ -498,16 +506,16 @@ interface CreationProduitPresenteur
 }
 ```
 
-### Etape 5 : gestion des contraintes :  Insertion des erreurs
+## Etape 5 : gestion des contraintes :  Insertion des erreurs
 
-#### 5.1 Test Unicité du nom
+### 5.1 Test Unicité du nom
 
 Ce test va nous conduire à créer:
 - le répository (interface) qui va nous permettre de faire la vérification avec une fonction dans le handler
 - On mockera l'interface et l'implémentation du repo se fera de manière indépendante.
 - Gestion d'exception
 
-##### Creation d'un nouveau test qui permet de vérifier l'unicité et l'erreur renvoyée.
+#### Creation d'un nouveau test qui permet de vérifier l'unicité et l'erreur renvoyée.
 
 
 ```php
@@ -530,7 +538,7 @@ Ce test va nous conduire à créer:
     }
 ```
 
-##### Implementation dans le handler la verification
+#### Implementation dans le handler la verification
 
 ```php
 
@@ -556,7 +564,7 @@ class CreationProduitCommandHandler {
 } 
 ```
 
-##### Creation l'interface ProduitRepository et du contrat isExist
+#### Creation l'interface ProduitRepository et du contrat isExist
 
 ```php
 <?php
@@ -570,7 +578,7 @@ interface ProduitRepository
 }
 ```
 
-##### Creation Mock ProduitRepository et l'injecter dans le constructeur du setup
+#### Creation Mock ProduitRepository et l'injecter dans le constructeur du setup
 
 Dans cette partie, il aurait été préférable d'injecter dans le constructeur du setup avant de creer l'interface.
 Il arrive qu'on bypass certaine étape pour faciliter la vie.
@@ -592,7 +600,7 @@ Il arrive qu'on bypass certaine étape pour faciliter la vie.
     // ...........
 ```
 
-##### Mock le retour de la fonction isExist
+#### Mock le retour de la fonction isExist
 
 ```php
     /**
@@ -616,13 +624,13 @@ Il arrive qu'on bypass certaine étape pour faciliter la vie.
     }
 ```
 
-##### Suppression test inutile
+#### Suppression test inutile
 
 Si vous relancez l'ensemble des tests, il y a le test instanciationCreationProduitCommandHandler qui va etre en erreur.
 Ce test nous servait juste à creer la class CommandHandler. Il n'est plus utilise de laisser executer et maintenir ce test.
 On peut le supprimer pour diminuer le cout.
 
-#### 5.2 Test Champs obligatoire
+### 5.2 Test Champs obligatoire
 
 Cette partie peut etre faite de différente manière: 
 - depuis le controller
@@ -630,9 +638,9 @@ Cette partie peut etre faite de différente manière:
 - directement dans la commande (version simple mais plutot dans un value object (notion en DDD))
 - dans le handler (Comme ici)
 
-##### 5.2.1 Test champs nom vide
+#### 5.2.1 Test champs nom vide
 
-###### creation test creationNouveauProduitSansNom
+##### creation test creationNouveauProduitSansNom
 
 On ne teste pas le null car sinon on teste le typage!
 
@@ -652,7 +660,7 @@ On ne teste pas le null car sinon on teste le typage!
     }
 ```
 
-###### implémentation de l'erreur dans le handler
+##### implémentation de l'erreur dans le handler
 /!\ n'oublie pas le Red Green (Refacto) !! Le red green pour permet de valider que votre test est utile
 
 ```php
@@ -670,9 +678,9 @@ class CreationProduitCommandHandler {
 ```
 
 
-##### 5.2.2 Test champs categorie vide
+#### 5.2.2 Test champs categorie vide
 
-###### creation test creationNouveauProduitSansCategorie
+##### creation test creationNouveauProduitSansCategorie
 
 ```php
     /**
@@ -690,7 +698,7 @@ class CreationProduitCommandHandler {
     }
 ```
 
-###### implémentation de l'erreur dans le handler
+##### implémentation de l'erreur dans le handler
 
 ```php
     public function handle(CreationProduitCommand $command): ProduitModel
@@ -703,9 +711,9 @@ class CreationProduitCommandHandler {
     }
 ```
 
-##### 5.2.2 Test champs categorie inconnue
+#### 5.2.2 Test champs categorie inconnue
 
-###### creation test creationNouveauProduitAvecCategorieInconnue
+##### creation test creationNouveauProduitAvecCategorieInconnue
 
 ```php
     /**
@@ -723,7 +731,7 @@ class CreationProduitCommandHandler {
     }
 ```
 
-###### implémentation de l'erreur dans le handler
+##### implémentation de l'erreur dans le handler
 
 ```php
 
@@ -753,21 +761,222 @@ class CreationProduitCommandHandler {
 Nous pouvons écrire un test permettant de valider si la catégorie existe mais dans notre context, c'est déjà testé par transitivité (par d'autres tests)
 Nous pouvons aussi faire un test pour certifier que notre liste ne change pas! c'est à l'équipe d'en décider.
 
-### Etape 6 : Creation du produit
+## Etape 6 : Creation du produit
 
-### Différence entre test unitaire et test d'intégration
+### Creation creationNouveauProduitSaveCalled
 
-### Test collaborative Vs Test denouement
+```php
+    /**
+     * @test 
+     */
+    public function creationNouveauProduitSaveCalled(): void
+    {
+        $name = "nouveauProduit";
+        $cat = "volley";
+        $command = new CreationProduitCommand(nom: $name, categorie: $cat);
 
-### Etape 7 : gestion InMemory
+        $this->produitRepository->expects(static::once())->method('save');
 
-### Container de dépendance
+        $this->creationProduitCommandeHandler->handle($command);
+    }
+```
 
-### Pyramide des tests
+### implementer le save dans le handle
 
-### Test end to end
+```php
+public function handle(CreationProduitCommand $command): ProduitModel
+    {
+        //......
+        if ($this->produitRepository->isExist($command->nom)) {
+            throw new \Exception("produit déjà existant", 500);
+        }
+        $this->produitRepository->save($command->nom, $command->categorie, $command->description);
+        //......
+    } 
+```
 
-### Etape 8 : test controller
+### Ajouter le contract à l'interface
 
-### Possibilité de mettre en prod avec les tests de denouement grace au InMemory
+```php
+<?php
 
+namespace Trung\Ftc\Test;
+
+interface ProduitRepository
+{
+
+    public function isExist(string $nom): bool;
+
+    public function save(string $nom, string $categorie, string $description);
+}
+```
+
+### Relance le test, et ça devrait passer
+
+On peut zapper cette étape en faisant directement le code suivant le contrat de la méthode save qui retourne le produitModel et les assertions qui vont bien.
+Mais cela fait beaucoup plus de code avant de pouvoir passer notre test au vert. Le but du TDD est de faire des baby step pour valider au plus vite et de maniere minimaliste notre test.
+
+### Creation creationNouveauProduitSaved
+
+```php
+    /**
+     * @test
+     */
+    public function creationNouveauProduitSaved(): void
+    {
+        $expectedName = "nouveauProduit";
+        $expectedCat = "volley";
+        $expectedDescription = "description";
+        $command = new CreationProduitCommand(nom: $expectedName, categorie: $expectedCat, description: $expectedDescription);
+
+        $this->produitRepository
+            ->expects(static::once())
+            ->method('save')
+            ->willReturn(
+                new ProduitModel(
+                    nom: $expectedName,
+                    categorie: $expectedCat,
+                    description: $expectedDescription
+                )
+            );
+
+        $model = $this->creationProduitCommandeHandler->handle($command);
+
+        $this->assertEquals($expectedName, $model->nom);
+        $this->assertEquals($expectedCat, $model->categorie);
+        $this->assertEquals($expectedDescription, $model->description);
+    }
+```
+
+### Mettre à jour le constructeur du ProduitModel
+
+```php
+<?php
+
+namespace Trung\Ftc\Test;
+
+class ProduitModel
+{
+    public function __construct(
+        public string $nom,
+        public string $categorie,
+        public string $description = ""
+    )
+    {
+    }
+}
+```
+
+### Mettre à jour le handler pour que ça soit la méthode "save" du repo qui fournit le model du produit
+
+```php
+<?php
+
+
+namespace Trung\Ftc\Test;
+
+
+class CreationProduitCommandHandler {
+
+    public const CATEGORIES_LISTES = [
+        'volley', 'foot', 'natation', 'badminton'
+    ];
+
+    public function __construct(
+        private CreationProduitPresenteur $creationProduitPresenter,
+        private ProduitRepository $produitRepository,
+    )
+    {
+    }
+
+    public function handle(CreationProduitCommand $command): ProduitModel
+    {
+        if(empty($command->nom)) {
+            throw new \Exception("le nom du produit doit etre spécifié", 7000);
+        }
+
+        if (empty($command->categorie)) {
+            throw new \Exception("la catégorie doit être spécifiée", 7001);
+        }
+
+        if (!in_array($command->categorie, static::CATEGORIES_LISTES)) {
+            throw new \Exception("La catégorie renseignée n'est pas trouvée", 7002);
+        }
+
+        if ($this->produitRepository->isExist($command->nom)) {
+            throw new \Exception("produit déjà existant", 500);
+        }
+
+        $model = $this->produitRepository->save($command->nom, $command->categorie, $command->description);
+
+        $this->creationProduitPresenter->affecteModel($model);
+        return $model;
+    }
+}
+```
+
+### Modifier la signature du contrat "save"
+
+```php
+<?php
+
+namespace Trung\Ftc\Test;
+
+interface ProduitRepository
+{
+    public function isExist(string $nom): bool;
+
+    public function save(string $nom, string $categorie, string $description): ProduitModel;
+}
+```
+
+## Relancer tous les tests et normalement tout est vert
+
+En faisant de cette manière, nous avons la maitrise totale de notre cas d'utilisation.
+Le code répond au besoin spécifié de manière unitaire, minimaliste et collaborative.
+
+# Différence entre test unitaire et test d'intégration
+
+Concept du port / adpateur
+
+Dans un test unitaire, on test le class object (cas d'utilisation) et on simule les ports (les interfaces des services)
+
+Dans un test d'intégration, on choisit d'intégrer dans nos tests, un adapteur (class implémentation d'un ou pusieur service)
+
+# Test collaborative Vs Test denouement
+
+Collaborative (qu'on vient de faire): 
+- Mock => couplage du code, block les changements
+    ex: la methode existe change de nom, il faudra changer les tests
+  
+Denouement (des tests avec le pattern Mémento (https://refactoring.guru/fr/design-patterns/memento))
+- Utilisation des class InMemory
+- Pas de couplage avec les implémentations dans le handler
+- les tests sont plus faciles à lire car la logique est déportée dans les class InMemory au lieu de voir les mock
+- les tests sont plus court, command + handle + assert Value Model
+- On peut utiliser nos class de InMemory dans une version MVP pour avoir un feedback rapide du client
+
+Pour ma part, il y a moins de concept à connaitre en faisant du collaborative.
+Passer par cette étape d'apprentissage permet TDD rapidement et de comprendre les avantages que peut nous apporter le denouement
+
+# Test end to end
+
+Un test end to end est un test qui simule l'entrée et qui passe par tous les adapteurs (class d'implémentation).
+
+# Pyramide des tests
+
+donner un pourcentage de coverage de vos différents tests
+
+# Des concepts pour faciliter le developpement
+
+- Container de dépendance
+- autowire
+- pyramide de tests
+
+# Feedback des etudiants
+....
+
+===> push les feedbacks dans un readme du dossier feeback formation
+
+### A SUIVRE AVEC "test controller"
+### A SUIVRE AVEC "test de dénouement"

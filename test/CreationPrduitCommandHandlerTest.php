@@ -142,4 +142,46 @@ class CreationPrduitCommandHandlerTest extends TestCase
 
         $this->creationProduitCommandeHandler->handle($command);
     }
+
+    /**
+     * @test
+     */
+    public function creationNouveauProduitSaveCalled(): void
+    {
+        $name = "nouveauProduit";
+        $cat = "volley";
+        $command = new CreationProduitCommand(nom: $name, categorie: $cat);
+
+        $this->produitRepository->expects(static::once())->method('save');
+
+        $this->creationProduitCommandeHandler->handle($command);
+    }
+
+    /**
+     * @test
+     */
+    public function creationNouveauProduitSaved(): void
+    {
+        $expectedName = "nouveauProduit";
+        $expectedCat = "volley";
+        $expectedDescription = "description";
+        $command = new CreationProduitCommand(nom: $expectedName, categorie: $expectedCat, description: $expectedDescription);
+
+        $this->produitRepository
+            ->expects(static::once())
+            ->method('save')
+            ->willReturn(
+                new ProduitModel(
+                    nom: $expectedName,
+                    categorie: $expectedCat,
+                    description: $expectedDescription
+                )
+            );
+
+        $model = $this->creationProduitCommandeHandler->handle($command);
+
+        $this->assertEquals($expectedName, $model->nom);
+        $this->assertEquals($expectedCat, $model->categorie);
+        $this->assertEquals($expectedDescription, $model->description);
+    }
 }

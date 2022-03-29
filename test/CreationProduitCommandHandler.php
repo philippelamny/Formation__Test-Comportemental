@@ -35,7 +35,8 @@ class CreationProduitCommandHandler {
             throw new \Exception("produit déjà existant", 500);
         }
 
-        $model = new ProduitModel();
+        $model = $this->produitRepository->save($command->nom, $command->categorie, $command->description);
+
         $this->creationProduitPresenter->affecteModel($model);
         return $model;
     }
