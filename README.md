@@ -1,81 +1,32 @@
-# Formation Informelle sur les Tests Comportementaux
+Formation Informelle sur les Tests Comportementaux
 
 # Sommaire
-
-- [Formation Informelle sur les Tests Comportementaux](#formation-informelle-sur-les-tests-comportementaux)
-- [Sommaire](#sommaire)
-- [Concepts requis:](#concepts-requis-)
-- [Qu est-ce que c'est](#qu-est-ce-que-c-est)
-- [Pourquoi](#pourquoi)
-- [Test unitaire](#test-unitaire)
-- [Typologie](#typologie)
-- [Cas pratique](#cas-pratique)
-- [Cas de utilisation:](#cas-de-utilisation-)
-  * [Étape 1 : création de la "command" ayant les propriétés demandées.](#-tape-1---cr-ation-de-la--command--ayant-les-propri-t-s-demand-es)
-    + [Creation class CreationPrduitCommandHandlerTest](#creation-class-creationprduitcommandhandlertest)
-    + [Creation Methode testInstanciationCreationProduitCommand](#creation-methode-testinstanciationcreationproduitcommand)
-    + [On instancie la commande avec des valeurs Obligatoire et description](#on-instancie-la-commande-avec-des-valeurs-obligatoire-et-description)
-    + [On lance le test, ça plante => Concept du Red Green Refacto (Baby step)](#on-lance-le-test---a-plante----concept-du-red-green-refacto--baby-step-)
-    + [Grave à l'éditeur, nous pouvons générer les class automatiquement.](#grave---l--diteur--nous-pouvons-g-n-rer-les-class-automatiquement)
-  * [Etape 2 : instanciation du commandHandler](#etape-2---instanciation-du-commandhandler)
-    + [test : instanciationCreationProduitCommandHandler](#test---instanciationcreationproduitcommandhandler)
-    + [Creation automatique de la class handler pour faire passer au green](#creation-automatique-de-la-class-handler-pour-faire-passer-au-green)
-    + [setup de la classe de test avec l'instance de la commandeHandler en private.](#setup-de-la-classe-de-test-avec-l-instance-de-la-commandehandler-en-private)
-  * [Etape 3 : methode handle qui retour un model](#etape-3---methode-handle-qui-retour-un-model)
-    + [Creation automatique du model](#creation-automatique-du-model)
-    + [Creation automatique de la methode handle](#creation-automatique-de-la-methode-handle)
-  * [Etape 4 : Injection Presenteur](#etape-4---injection-presenteur)
-  * [Principe du Presenteur](#principe-du-presenteur)
-  * [Injection de dépendance](#injection-de-d-pendance)
-  * [Inversion de dépendance](#inversion-de-d-pendance)
-    + [Injecter une instance du presenteur JSON Dans le setup et le test de creation du handler,](#injecter-une-instance-du-presenteur-json-dans-le-setup-et-le-test-de-creation-du-handler-)
-      - [Modifier le test d'instanciation du handler](#modifier-le-test-d-instanciation-du-handler)
-      - [Modifier le setup avec une instanciation du handler en prop](#modifier-le-setup-avec-une-instanciation-du-handler-en-prop)
-      - [Creation de la class CreationProduitJsonPresenteur](#creation-de-la-class-creationproduitjsonpresenteur)
-      - [Ajout le parametre du presenteur dans le construct du handler](#ajout-le-parametre-du-presenteur-dans-le-construct-du-handler)
-      - [Creation de l'interface CreationProduitPresenteur](#creation-de-l-interface-creationproduitpresenteur)
-        * [Dans le handler, on affecte le model au presenteur](#dans-le-handler--on-affecte-le-model-au-presenteur)
-        * [On change la signature du présenteur avec l'interface](#on-change-la-signature-du-pr-senteur-avec-l-interface)
-        * [On ajoute le contrat](#on-ajoute-le-contrat)
-  * [Etape 5 : gestion des contraintes :  Insertion des erreurs](#etape-5---gestion-des-contraintes----insertion-des-erreurs)
-    + [5.1 Test Unicité du nom](#51-test-unicit--du-nom)
-      - [Creation d'un nouveau test qui permet de vérifier l'unicité et l'erreur renvoyée.](#creation-d-un-nouveau-test-qui-permet-de-v-rifier-l-unicit--et-l-erreur-renvoy-e)
-      - [Implementation dans le handler la verification](#implementation-dans-le-handler-la-verification)
-      - [Creation l'interface ProduitRepository et du contrat isExist](#creation-l-interface-produitrepository-et-du-contrat-isexist)
-      - [Creation Mock ProduitRepository et l'injecter dans le constructeur du setup](#creation-mock-produitrepository-et-l-injecter-dans-le-constructeur-du-setup)
-      - [Mock le retour de la fonction isExist](#mock-le-retour-de-la-fonction-isexist)
-      - [Suppression test inutile](#suppression-test-inutile)
-    + [5.2 Test Champs obligatoire](#52-test-champs-obligatoire)
-      - [5.2.1 Test champs nom vide](#521-test-champs-nom-vide)
-        * [creation test creationNouveauProduitSansNom](#creation-test-creationnouveauproduitsansnom)
-        * [implémentation de l'erreur dans le handler](#impl-mentation-de-l-erreur-dans-le-handler)
-      - [5.2.2 Test champs categorie vide](#522-test-champs-categorie-vide)
-        * [creation test creationNouveauProduitSansCategorie](#creation-test-creationnouveauproduitsanscategorie)
-        * [implémentation de l'erreur dans le handler](#impl-mentation-de-l-erreur-dans-le-handler-1)
-      - [5.2.2 Test champs categorie inconnue](#522-test-champs-categorie-inconnue)
-        * [creation test creationNouveauProduitAvecCategorieInconnue](#creation-test-creationnouveauproduitaveccategorieinconnue)
-        * [implémentation de l'erreur dans le handler](#impl-mentation-de-l-erreur-dans-le-handler-2)
-  * [Etape 6 : Creation du produit](#etape-6---creation-du-produit)
-    + [Creation creationNouveauProduitSaveCalled](#creation-creationnouveauproduitsavecalled)
-    + [implementer le save dans le handle](#implementer-le-save-dans-le-handle)
-    + [Ajouter le contract à l'interface](#ajouter-le-contract---l-interface)
-    + [Relance le test, et ça devrait passer](#relance-le-test--et--a-devrait-passer)
-    + [Creation creationNouveauProduitSaved](#creation-creationnouveauproduitsaved)
-    + [Mettre à jour le constructeur du ProduitModel](#mettre---jour-le-constructeur-du-produitmodel)
-    + [Mettre à jour le handler pour que ça soit la méthode "save" du repo qui fournit le model du produit](#mettre---jour-le-handler-pour-que--a-soit-la-m-thode--save--du-repo-qui-fournit-le-model-du-produit)
-    + [Modifier la signature du contrat "save"](#modifier-la-signature-du-contrat--save-)
-  * [Relancer tous les tests et normalement tout est vert](#relancer-tous-les-tests-et-normalement-tout-est-vert)
-- [Différence entre test unitaire et test d'intégration](#diff-rence-entre-test-unitaire-et-test-d-int-gration)
-- [Test collaborative Vs Test denouement](#test-collaborative-vs-test-denouement)
-- [Test end to end](#test-end-to-end)
-- [Pyramide des tests](#pyramide-des-tests)
-- [Des concepts pour faciliter le developpement](#des-concepts-pour-faciliter-le-developpement)
-- [Feedback des etudiants](#feedback-des-etudiants)
-
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
+# Formation
 
-# Concepts requis:
+Le but de cette formation est de partager une facon d'écrire des tests unitaires qui vont vous guider dans votre développement.
+La formation est axée sur la méthodologie et s'accompagnera de quelques notions qu'il faudra approfondir au sein de votre équipe.
+Elle n'a pas pour but de changer votre organisation mais simplement faire disparaitre les craintes de la mise en place des tests.
+Elle s'adresse à tous les niveaux d'équipe, mais principalement aux equipes qui se questionnent sur les tests.
+
+# Prerequis
+
+- Avoir travailler sur le stack PHP
+- Connaissance sur PhpUnit
+- Git + Docker + IDE (phpstorm) installés
+
+# Déroulement
+
+Nous allons débuter la formation par des explications informelles des tests unitaires axés sur le comportement.
+Et rapidement, nous laisserons place au développement d'un cas d'utilisation (en Mob Programming pour le présentiel) 
+en écrivant nos tests qui pilotent notre développement (TDD : Test Driven Development).
+Apres, vous serez confronté en pair programming de faire du TDD sur un cas d'utilisation.
+Nous terminerons la formation sur vos feedbacks.
+Et en présentiel, nous pourrons analyser ensemble votre architecture actuelle et voir comment on peut intégrer les tests dans votre projet.
+
+
+# Concepts
 
 - concept de cas d'utilisation
 - autowirering
@@ -92,17 +43,11 @@ Dans le trio des "D", nous retrouvons le BDD "Behavior Driven Developement". Un 
 # Pourquoi
 
 Il va décrire l ensemble des comportements décrits dans les spécifications "métiers" du cas d'utilisation.
-
 De manière unitaire, tous les comportements doivent apparaître lors de l'exécution des tests.
-
 Les noms des tests doivent être compréhensifs par Le métier.
-
 Cela va permettre de créer de la documentation dynamique et vérifier si nous avons le comportement voulu.
-
 Il n'est pas utile d'avoir tous les détails de l'implémentation dans le nom.
-
 L'utilité des tests est d'avoir un garde fou sur les cas indésirables. Mais le plus important est de permettre la refactoriser du code. (Todo : les bienfaits de la refactorisation)
-
 Si les tests se basent sur l'aspect technique de l'implémentation, il sera difficile de maintenir la documentation car la technique reste du bas niveau et lors d'une refactorisation, on devra modifier le test (surtout les noms pour rester en adéquation avec la refacto), alors que le comportement n'est jamais censé changer.
 
 Ex:
@@ -110,7 +55,6 @@ Bas niveau: then throw exception name already exist
 Haut niveau: inform name already exist
 
 Pensez au prochain collègue qui va passer sur vos tests. Il aura une meilleur compréhension du cas d'utilisation si les noms sont bien plus pertinent et correspondent à un comportement.
-
 Il est important que les noms soient normalisés par l'équipe car comme pour le code, on ne doit pas distinguer le code de chacun (utopique)
 
 # Test unitaire
