@@ -10,7 +10,7 @@ La formation est axée sur la méthodologie et s'accompagnera de quelques notion
 Elle n'a pas pour but de changer votre organisation mais simplement faire disparaitre les craintes de la mise en place des tests.
 Elle s'adresse à tous les niveaux d'équipe, mais principalement aux equipes qui se questionnent sur les tests.
 
-# Prerequis
+# Prérequis
 
 - Avoir travailler sur le stack PHP
 - Connaissance sur PhpUnit
@@ -25,24 +25,16 @@ Apres, vous serez confronté en pair programming de faire du TDD sur un cas d'ut
 Nous terminerons la formation sur vos feedbacks.
 Et en présentiel, nous pourrons analyser ensemble votre architecture actuelle et voir comment on peut intégrer les tests dans votre projet.
 
+# Théorie
+ 
+## Qu'est-ce que c'est
 
-# Concepts
+Le test comportemental est un ensemble de test qui va décrire le comportement que l'on souhaite pour un cas d'utilisation donné.
+Dans le trio des "D", nous retrouvons le BDD "Behavior Driven Developement". Un concept permettant de décrire tout un jeu d'exemple permettant de clarifier le cas d'utilisation.
 
-- concept de cas d'utilisation
-- autowirering
-- cqs
-- injection de dépendance par interface a la construction de l'object
-- test unitaire
-- mock
+## Pourquoi
 
-# Qu est-ce que c'est
-
-Le test comportemental est un ensemble de test qui va décrire le comportement que l'on souhaite pour un cas d utilisation donnée.
-Dans le trio des "D", nous retrouvons le BDD "Behavior Driven Developement". Un concept permettant de décrire tout un jeu d'exemples permettant de clarifier le cas d'utilisation.
-
-# Pourquoi
-
-Il va décrire l ensemble des comportements décrits dans les spécifications "métiers" du cas d'utilisation.
+Il va décrire l'ensemble des comportements décrits dans les spécifications "métiers" du cas d'utilisation.
 De manière unitaire, tous les comportements doivent apparaître lors de l'exécution des tests.
 Les noms des tests doivent être compréhensifs par Le métier.
 Cela va permettre de créer de la documentation dynamique et vérifier si nous avons le comportement voulu.
@@ -57,12 +49,18 @@ Haut niveau: inform name already exist
 Pensez au prochain collègue qui va passer sur vos tests. Il aura une meilleur compréhension du cas d'utilisation si les noms sont bien plus pertinent et correspondent à un comportement.
 Il est important que les noms soient normalisés par l'équipe car comme pour le code, on ne doit pas distinguer le code de chacun (utopique)
 
-# Test unitaire
+## Test unitaire
 
 Il y a différents types de test (Integration, Unitaire, EndToEnd). 
 Ici nous allons nous concentrer sur les unitaires, c'est à dire sur une class spécifique et notamment sur son comportement.
 Ce qui veut dire qu'on ne teste pas une structure (ex: data transfert object "DTO") mais un object (class avec des regles métiers).
-Concept du FIRST:
+Le principe est de couvrir de test sur l'ensemble des comportement de l'objet de manière isolée et simuler les services dépendants.
+On testera alors les méthodes publiques et toute la complexcité de cette méthode.
+
+## Concept du FIRST
+
+Les tests unitaires doivent respecter le concept du FIRST : 
+
 - Fast
 - independant / isolate
   Triple A (Arrange, Act, Assert)
@@ -70,31 +68,38 @@ Concept du FIRST:
 - Self Validation
 - Thorough : couverture de tous les cas et non 100% des données
 
+## Concepts à connaitre
 
-# Typologie
+- concept de cas d'utilisation
+- autowirering (Optionnel)
+- cqs (Optionnel)
+- injection de dépendance par interface a la construction de l'objet
+- test unitaire avec Phpunit et notion Mock
 
-Dans le cas pratique, nous allons utiliser les typologies suivants:
-- notre DTO d'entrée s'appellera Command
-- notre Object sera CommandHandler
-- Les objects métiers seront des Models
-- Les dépendances seront des services
-
-# Cas pratique
+# Demo
 
 Tout au long du cas pratique, nous introduirons des concepts utiles pour écrire des tests unitaires
 
-# Cas de utilisation:
+## Typologie
 
-En tant que administrateur du site, je souhaite pouvoir créer un produit.
+Dans le cas pratique, nous allons utiliser les typologies suivants:
+- notre DTO d'entrée s'appellera Command
+- notre Objet sera CommandHandler
+- Les objets métiers seront des Models
+- Les dépendances seront des services
+
+## Cas d'utilisation:
+
+En tant qu'administrateur du site, je souhaite pouvoir créer un produit.
 
 Ce produit aura les propriétés suivantes:
 - Nom du produit (obligatoire et unique)
-- Catégorie du produit (obligatoire, enumeration: volley, foot, natation, badminton)
+- Catégorie du produit (obligatoire, énumeration: volley, foot, natation, badminton)
 - Description
 
 Si l'un des champs obligatoire n'est pas rempli ou qui n'est pas valide, le produit ne peut être créé et l'administrateur doit en être informé.
 
-Lors que le produit est créé, l'administrateur va etre redirigé vers la page qui liste les produits par ordre de date de création descroissant
+Lors que le produit est créé, l'administrateur va etre redirigé vers la page qui liste les produits par ordre de date de création décroissant
 
 Analyse du cas d'utilisation
 
