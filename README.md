@@ -9,7 +9,7 @@ Elle s'adresse à tous les niveaux d'équipe, mais principalement aux equipes qu
 
 # Prérequis
 
-- Avoir travailler sur le stack PHP
+- Avoir travaillé sur le stack PHP
 - Connaissance sur PhpUnit
 - Git + Docker + IDE (phpstorm) installés
 
@@ -22,13 +22,11 @@ Apres, vous serez confronté en pair programming de faire du TDD sur un cas d'ut
 Nous terminerons la formation sur vos feedbacks.
 Et en présentiel, nous pourrons analyser ensemble votre architecture actuelle et voir comment on peut intégrer les tests dans votre projet.
 
-# Théorie
- 
-# Demo en TDD
+# [Théorie](doc/test/partie_theorique.md)
 
-Sur un cas d'utilisation de création
+# [Demo en TDD](doc/test/partie_demo.md)
 
-# Pratique du TDD
+# [Pratique du TDD](doc/test/partie_pratique.md)
 
 Sur le cas d'utilisation de modification en continuité avec la démo
 

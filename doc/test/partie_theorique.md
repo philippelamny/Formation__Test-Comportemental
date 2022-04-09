@@ -50,17 +50,25 @@ Les tests unitaires doivent respecter le concept du FIRST :
 # Différence entre test unitaire et test d'intégration
 
 Concept du port / adpateur
-
 Dans un test unitaire, on test le class object (cas d'utilisation) et on simule les ports (les interfaces des services)
-
 Dans un test d'intégration, on choisit d'intégrer dans nos tests, un adapteur (class implémentation d'un ou pusieur service)
 
 # Test collaborative Vs Test denouement
 
-Collaborative (qu'on vient de faire):
-- Mock => couplage du code, block les changements
-  ex: la methode existe change de nom, il faudra changer les tests
+## Collaborative
+Dans le cas pratique, nous allons tester de manière collaborative. 
+Ce qui veut dire que l'on va simuler/mocker les différents comportements des services (les adpateurs) 
+pour valider le comportement de notre cas d'utilisation.
+l'avantage est qu'on peut très vite arriver à un résultat en mockant les méthodes définies dans les ports.
+Mais cela aura un réel coût sur le couplage des tests et il faudra probablement changer les tests : 
+- si on modifie la signature d'une méthode du port,
+- si on change le nom d'une méthode du port
+- si le cas d'utilisation utilise une autre méthode
+Cela briserait le concept de la refacto grace aux tests écrits déjà écrits.
+La refacto ne doit pas changer le comportement, donc ne doit pas changer les tests.
 
+
+## Dénouement
 Denouement (des tests avec le pattern Mémento (https://refactoring.guru/fr/design-patterns/memento))
 - Utilisation des class InMemory
 - Pas de couplage avec les implémentations dans le handler
@@ -68,7 +76,8 @@ Denouement (des tests avec le pattern Mémento (https://refactoring.guru/fr/desi
 - les tests sont plus court, command + handle + assert Value Model
 - On peut utiliser nos class de InMemory dans une version MVP pour avoir un feedback rapide du client
 
-Pour ma part, il y a moins de concept à connaitre en faisant du collaborative.
+Pour ma part, aujourd'hui, je prends le risque à faire du collaborative 
+car il y a moins de concept à connaitre en faisant du collaborative.
 Passer par cette étape d'apprentissage permet TDD rapidement et de comprendre les avantages que peut nous apporter le denouement
 
 # Test end to end
