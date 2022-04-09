@@ -86,7 +86,7 @@ Un test end to end est un test qui simule l'entrée et qui passe par tous les ad
 
 # Pyramide des tests
 
-donner un pourcentage de coverage de vos différents tests
+donner un pourcentage de coverage de vos différents tests.
 
 # Des concepts pour faciliter le developpement
 

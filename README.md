@@ -24,13 +24,21 @@ Et en présentiel, nous pourrons analyser ensemble votre architecture actuelle e
 
 # [Théorie](doc/test/partie_theorique.md)
 
+Dans la partie théorique, nous allons parcourir des notions qui vont nous permettre de mieux comprendre les tests et ainsi entamer la démarche du TDD
+
 # [Demo en TDD](doc/test/partie_demo.md)
+
+Cette partie sera consacrée à un live coding en TDD sur un cas d'utilisation basique.
 
 # [Pratique du TDD](doc/test/partie_pratique.md)
 
-Sur le cas d'utilisation de modification en continuité avec la démo
+Apres avoir vu les notions et un live coding en TDD, c'est à votre tour en peer de pratiquer le TDD sur un case d'utilisation qui fait suite à l'existant.
 
-# Feedback des etudiants
+# Feedback des futurs Craftmanship
 
-### A SUIVRE AVEC "test controller"
-### A SUIVRE AVEC "test de dénouement"
+# Future Formation ?
+
+- Tests sur le controller et service tiers
+- Test de dénouement
+- Mise en place d'une Architecture Hexagonale (clean archi)
+- Qu'est-ce que c'est le DDD ?

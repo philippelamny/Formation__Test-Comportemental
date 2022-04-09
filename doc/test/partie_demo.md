@@ -1,7 +1,4 @@
-
-Tout au long du cas pratique, nous introduirons des concepts utiles pour écrire des tests unitaires
-
-## Typologie
+# Typologie
 
 Dans le cas pratique, nous allons utiliser les typologies suivants:
 - notre DTO d'entrée s'appellera Command
@@ -9,7 +6,7 @@ Dans le cas pratique, nous allons utiliser les typologies suivants:
 - Les objets métiers seront des Models
 - Les dépendances seront des services
 
-## Cas d'utilisation:
+# Cas d'utilisation:
 
 En tant qu'administrateur du site, je souhaite pouvoir créer un produit.
 
@@ -23,6 +20,8 @@ Si l'un des champs obligatoire n'est pas rempli ou qui n'est pas valide, le prod
 Lors que le produit est créé, l'administrateur va etre redirigé vers la page qui liste les produits par ordre de date de création décroissant
 
 Analyse du cas d'utilisation
+
+# Live conding
 
 ## Étape 1 : création de la "command" ayant les propriétés demandées.
 
