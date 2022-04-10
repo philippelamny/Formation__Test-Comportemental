@@ -1,23 +1,36 @@
 # Qu'est-ce que c'est
 
 Le test comportemental est un ensemble de test qui va décrire le comportement que l'on souhaite pour un cas d'utilisation donné.
-Dans le trio des "D", nous retrouvons le BDD "Behavior Driven Developement". Un concept permettant de décrire tout un jeu d'exemple permettant de clarifier le cas d'utilisation.
+
+Les tests de comportement est le concept majeur du BDD "Behavior Driven Developement" dont le but est de décrire tout un jeu de test permettant de clarifier le cas d'utilisation.
+Le pattern Given When Then est utilisé pour l'écriture des tests.
+L'écriture des jeux de test se fait avec tous les interlocuteurs principaux aux projets (developpeur, PO et chef de projet).
+Ces jeux de test doivent décrire toutes les spécifications "métier" du cas d'utilisation.
 
 # Pourquoi ?
 
-Il va décrire l'ensemble des comportements décrits dans les spécifications "métiers" du cas d'utilisation.
-De manière unitaire, tous les comportements doivent apparaître lors de l'exécution des tests.
-Les noms des tests doivent être compréhensifs par Le métier.
+En testant l'ensemble des comportements décrits dans les spécifications "métiers" du cas d'utilisation, on sera sur que l'implémentation correspond au besoin.
+Ainsi de manière unitaire, tous les comportements vont apparaître lors de l'exécution des tests.
+
+L'utilité des tests est d'avoir un garde fou sur les cas indésirables. Mais le plus important est de permettre la refactoriser du code.
+Si les tests se basent sur l'aspect technique de l'implémentation, il sera difficile de maintenir la documentation 
+car la technique reste du bas niveau et lors d'une refactorisation, 
+on devra modifier le test (surtout les noms pour rester en adéquation avec la refacto), 
+alors que le comportement n'est pas censé changer.
+
+la nomenclature des noms des tests doivent être compréhensifs par Le métier.
 Cela va permettre de créer de la documentation dynamique et vérifier si nous avons le comportement voulu.
 Il n'est pas utile d'avoir tous les détails de l'implémentation dans le nom.
-L'utilité des tests est d'avoir un garde fou sur les cas indésirables. Mais le plus important est de permettre la refactoriser du code.
-Si les tests se basent sur l'aspect technique de l'implémentation, il sera difficile de maintenir la documentation car la technique reste du bas niveau et lors d'une refactorisation, on devra modifier le test (surtout les noms pour rester en adéquation avec la refacto), alors que le comportement n'est jamais censé changer.
 
 Ex:
 Bas niveau: then throw exception name already exist
 Haut niveau: inform name already exist
 
-Pensez au prochain collègue qui va passer sur vos tests. Il aura une meilleur compréhension du cas d'utilisation si les noms sont bien plus pertinent et correspondent à un comportement.
+
+Les tests doivent être aussi propre que le code métier pour la comprehension du cas d'utilisation. 
+On doit comprendre toute l'intention sans en connaitre son implémentation.
+
+**Tips :** Pensez au prochain collègue qui va passer sur vos tests. Il aura une meilleur compréhension du cas d'utilisation si les noms sont bien plus pertinent et correspondent à un comportement.
 Il est important que les noms soient normalisés par l'équipe car comme pour le code, on ne doit pas distinguer le code de chacun (utopique)
 
 # Pourquoi la refactorisation ?
@@ -37,13 +50,14 @@ Des méthodologies peuvent vous aider à rendre vos codes organisés,  structure
 Vous pouvez suivre :
 - les recommandations de oncle bob (clean code)
 - des design pattern pouvant répondre à des problématiques spécifiques ( singleton, factory abstract, chain of responsability, ...)
+   [ref refactoring](https://refactoring.guru/fr/design-patterns)
 - le concept de S.O.L.I.D
 
 Casser le code pour mieux le reconstruire ne devrait plus être une crainte mais un encouragement vers une meilleur qualité du système (optimisation et compréhension de l'intention du code)
 
 # Raconter l'Histoire de oncle BOB sur l'acceptation d'avoir des tests écrits pas proprement mais d'avoir son code systeme complexe mais propre!
 
-# Test unitaire
+# Test
 
 Il y a différents types de test (Integration, Unitaire, EndToEnd).
 Ici nous allons nous concentrer sur les unitaires, c'est à dire sur une class spécifique et notamment sur son comportement.
@@ -51,7 +65,7 @@ Ce qui veut dire qu'on ne teste pas une structure (ex: data transfert object "DT
 Le principe est de couvrir de test sur l'ensemble des comportement de l'objet de manière isolée et simuler les services dépendants.
 On testera alors les méthodes publiques et toute la complexcité de cette méthode.
 
-# Concept du FIRST
+## Concept du FIRST
 
 Les tests unitaires doivent respecter le concept du FIRST :
 
@@ -63,17 +77,16 @@ Les tests unitaires doivent respecter le concept du FIRST :
 - Self Validation
 - Thorough : couverture de tous les cas et non 100% des données
 
-# test unitaire
+## test unitaire
 
 Concept du port / adpateur
 Dans un test unitaire, on test le class object (cas d'utilisation) et on simule les ports (les interfaces des services)
 
-# test d'intégration
+## test d'intégration
 
 Dans un test d'intégration, on choisit d'intégrer dans nos tests, un adapteur (class implémentation d'un ou pusieur service)
 
-
-# Test end to end
+## Test end to end
 
 Un test end to end est un test qui simule l'entrée et qui passe par tous les adapteurs (class d'implémentation).
 
@@ -95,6 +108,7 @@ Avec un  coverage de 100% grace a des tests unitaires, vous vous assurez une qua
 # Test collaborative Vs Test denouement
 
 ## Collaborative
+
 Dans le cas pratique, nous allons tester de manière collaborative. 
 Ce qui veut dire que l'on va simuler/mocker les différents comportements des services (les adpateurs) 
 pour valider le comportement de notre cas d'utilisation.
@@ -108,6 +122,7 @@ La refacto ne doit pas changer le comportement, donc ne doit pas changer les tes
 
 
 ## Dénouement
+
 Denouement (des tests avec le pattern Mémento (https://refactoring.guru/fr/design-patterns/memento))
 - Utilisation des class InMemory
 - Pas de couplage avec les implémentations dans le handler
@@ -115,10 +130,8 @@ Denouement (des tests avec le pattern Mémento (https://refactoring.guru/fr/desi
 - les tests sont plus court, command + handle + assert Value Model
 - On peut utiliser nos class de InMemory dans une version MVP pour avoir un feedback rapide du client
 
-Pour ma part, aujourd'hui, je prends le risque à faire du collaborative 
-car il y a moins de concept à connaitre en faisant du collaborative.
-Passer par cette étape d'apprentissage permet TDD rapidement et de comprendre les avantages que peut nous apporter le denouement
-
+Pour ma part, aujourd'hui, je prends le risque de faire du collaborative 
+car il y a moins de concept à connaitre, l'apprentissage est bien plus rapide pour démarrer le TDD rapidement et dans un second temps, comprendre les avantages que peut nous apporter le denouement.
 
 # Différents concepts à connaitre pour la demo / pratique
 
