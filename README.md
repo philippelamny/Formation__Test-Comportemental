@@ -42,6 +42,7 @@ Apres avoir vu les notions et un live coding en TDD, c'est à votre tour en peer
 - Test de dénouement
 - Mise en place d'une Architecture Hexagonale (clean archi)
 - Qu'est-ce que c'est le DDD ?
+- du BDD dans Behat ?
 
 
 # Accès rapide

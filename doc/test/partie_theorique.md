@@ -10,7 +10,7 @@ De manière unitaire, tous les comportements doivent apparaître lors de l'exéc
 Les noms des tests doivent être compréhensifs par Le métier.
 Cela va permettre de créer de la documentation dynamique et vérifier si nous avons le comportement voulu.
 Il n'est pas utile d'avoir tous les détails de l'implémentation dans le nom.
-L'utilité des tests est d'avoir un garde fou sur les cas indésirables. Mais le plus important est de permettre la refactoriser du code. (Todo : les bienfaits de la refactorisation)
+L'utilité des tests est d'avoir un garde fou sur les cas indésirables. Mais le plus important est de permettre la refactoriser du code.
 Si les tests se basent sur l'aspect technique de l'implémentation, il sera difficile de maintenir la documentation car la technique reste du bas niveau et lors d'une refactorisation, on devra modifier le test (surtout les noms pour rester en adéquation avec la refacto), alors que le comportement n'est jamais censé changer.
 
 Ex:
@@ -19,6 +19,21 @@ Haut niveau: inform name already exist
 
 Pensez au prochain collègue qui va passer sur vos tests. Il aura une meilleur compréhension du cas d'utilisation si les noms sont bien plus pertinent et correspondent à un comportement.
 Il est important que les noms soient normalisés par l'équipe car comme pour le code, on ne doit pas distinguer le code de chacun (utopique)
+
+# Pourquoi la refactorisation ?
+
+Il y a un concept très utile pour travailler en équipe en toute bienveillance qui est "le code que tu as écrit à un instant T ne te représente pas".
+Ce qui veut dire qu'il ne faut pas juger quelqu'un sur son code déjà ecrit car le programmeur évolue tous les jours et peut etre qu'à l'instant T, il y a eu un context qui fait que son code a été écrit ainsi.
+La critique constructive sur le code et non le developpeur est nécessaire pour ainsi maintenir le code du systeme propre et maintenable au fil du temps.
+
+**Le credo à avoir : Pousser votre code seulement lorsque vous en etes satisfaits!**
+
+La refatoritsation peut etre complexe selon les fonctionnalités et du coup, etre très couteuse et risqués!
+C'est là qu'il est important d'avoir des tests bons unitaires qui permettent de garantir la santé de votre systeme lors d'une refactorisation car elle ne doit pas modifier le comportement.
+
+Lorsque vous avez du code legacy "Code sans test" et que vous avez besoin de faire evoluer le code (refacto ou evolution métier), c'est le moment idéal de mettre en place des tests sur le nouveau comportement ou/et des tests sur le comportement existants avant la refacto.
+
+## Raconter l'Histoire de oncle BOB sur l'acceptation d'avoir des tests écrits pas proprement mais d'avoir son code systeme complexe mais propre!
 
 # Test unitaire
 
@@ -35,6 +50,7 @@ Les tests unitaires doivent respecter le concept du FIRST :
 - Fast
 - independant / isolate
   Triple A (Arrange, Act, Assert)
+  Given When THEN
 - Repeatable
 - Self Validation
 - Thorough : couverture de tous les cas et non 100% des données
