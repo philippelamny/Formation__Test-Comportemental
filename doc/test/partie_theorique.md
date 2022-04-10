@@ -33,7 +33,15 @@ C'est là qu'il est important d'avoir des tests bons unitaires qui permettent de
 
 Lorsque vous avez du code legacy "Code sans test" et que vous avez besoin de faire evoluer le code (refacto ou evolution métier), c'est le moment idéal de mettre en place des tests sur le nouveau comportement ou/et des tests sur le comportement existants avant la refacto.
 
-## Raconter l'Histoire de oncle BOB sur l'acceptation d'avoir des tests écrits pas proprement mais d'avoir son code systeme complexe mais propre!
+Des méthodologies peuvent vous aider à rendre vos codes organisés,  structures, compréhensifs et cohérents avec une validation en amont des normes architecturalles du système au sein de l'équipe.
+Vous pouvez suivre :
+- les recommandations de oncle bob (clean code)
+- des design pattern pouvant répondre à des problématiques spécifiques ( singleton, factory abstract, chain of responsability, ...)
+- le concept de S.O.L.I.D
+
+Casser le code pour mieux le reconstruire ne devrait plus être une crainte mais un encouragement vers une meilleur qualité du système (optimisation et compréhension de l'intention du code)
+
+# Raconter l'Histoire de oncle BOB sur l'acceptation d'avoir des tests écrits pas proprement mais d'avoir son code systeme complexe mais propre!
 
 # Test unitaire
 
@@ -55,19 +63,34 @@ Les tests unitaires doivent respecter le concept du FIRST :
 - Self Validation
 - Thorough : couverture de tous les cas et non 100% des données
 
-# Différents concepts à connaitre
-
-- concept de cas d'utilisation
-- autowirering (Optionnel)
-- cqs (Optionnel)
-- injection de dépendance par interface a la construction de l'objet
-- test unitaire avec Phpunit et notion Mock
-
-# Différence entre test unitaire et test d'intégration
+# test unitaire
 
 Concept du port / adpateur
 Dans un test unitaire, on test le class object (cas d'utilisation) et on simule les ports (les interfaces des services)
+
+# test d'intégration
+
 Dans un test d'intégration, on choisit d'intégrer dans nos tests, un adapteur (class implémentation d'un ou pusieur service)
+
+
+# Test end to end
+
+Un test end to end est un test qui simule l'entrée et qui passe par tous les adapteurs (class d'implémentation).
+
+# Pyramide des tests
+
+Parmi les 3 types de tests (unitaire/integration/end to end),
+Chacun des tests apportent une plus value au système mais aussi des inconvénients.
+
+La pyramide des tests est un récapitulatif des avantages/inconvénients des trois types de test par leur complexité, temps de exécution, coût de mise en place et propose une repartition globale.
+
+Les tests de bout en bout apporte une assurance sur la la fonctionalité du système mais seule, le code peut devenir une boîte noire et complexe à maintenir. Cest plus lent et olus coûteux car il faut déployer tout l'environnement pour que cela fonctionne.
+
+Les tests d'intégration sont simple mais reste coûteux car il faut mettre en place des parties tierces à chaque test (ex : base de donnees) et les tests ne sont pas forcement testables en parallèle.
+
+Les tests unitaires sont simples, efficaces et comprehensifs. Ils respectent l'acronyme du FIRST. Peu coûteux car ils se suffisent à eux même. Pas besoin d'une infrastructure robuste. Ils aident à la refactorisation de petit bout de code.
+Avec un  coverage de 100% grace a des tests unitaires, vous vous assurez une qualité de code qui peut toujours être évolué proprement.
+
 
 # Test collaborative Vs Test denouement
 
@@ -96,20 +119,20 @@ Pour ma part, aujourd'hui, je prends le risque à faire du collaborative
 car il y a moins de concept à connaitre en faisant du collaborative.
 Passer par cette étape d'apprentissage permet TDD rapidement et de comprendre les avantages que peut nous apporter le denouement
 
-# Test end to end
 
-Un test end to end est un test qui simule l'entrée et qui passe par tous les adapteurs (class d'implémentation).
+# Différents concepts à connaitre pour la demo / pratique
 
-# Pyramide des tests
-
-donner un pourcentage de coverage de vos différents tests.
+- concept de cas d'utilisation
+- principe injection de dépendance par interface a la construction de l'objet
+- principe inversion de dépendance
+- test unitaire avec Phpunit et notion Mock
 
 # Des concepts pour faciliter le developpement
 
+- cqs
 - Container de dépendance
 - autowire
 - pyramide de tests
-
 
 # Accès rapide
 [accueil](../../README.md)
