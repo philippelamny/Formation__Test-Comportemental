@@ -77,9 +77,21 @@ Les tests unitaires doivent respecter le concept du FIRST :
 - Self Validation
 - Thorough : couverture de tous les cas et non 100% des données
 
+## Concept du port / adpateur
+
+Un clin d'oeil à la clean architecture / architecture hexagonale qui se base sur le concept du port/adapteur
+Le principe est de découplé les details de l'implémentation des services de la logique métier.
+
+Le port est un contract qui contractualise différentes actions possibles (en hexa: c'est un point d'entré fournit dans la couche métier) 
+Techniquement, c'est une interface avec des méthodes spécifiées qui doivent etre implémentées.
+
+l'adpateur est l'implémenteur du contrat utilisant les services adéquats.
+Techniquement, c'est la class concrète qui implémente l'interface (ex: Repository)
+
+TODO : Image PORT / ADAPTEUR
+
 ## test unitaire
 
-Concept du port / adpateur
 Dans un test unitaire, on test le class object (cas d'utilisation) et on simule les ports (les interfaces des services)
 
 ## test d'intégration
@@ -104,6 +116,7 @@ Les tests d'intégration sont simple mais reste coûteux car il faut mettre en p
 Les tests unitaires sont simples, efficaces et comprehensifs. Ils respectent l'acronyme du FIRST. Peu coûteux car ils se suffisent à eux même. Pas besoin d'une infrastructure robuste. Ils aident à la refactorisation de petit bout de code.
 Avec un  coverage de 100% grace a des tests unitaires, vous vous assurez une qualité de code qui peut toujours être évolué proprement.
 
+TODO : Image Pyramide des tests
 
 # Test collaborative Vs Test denouement
 
