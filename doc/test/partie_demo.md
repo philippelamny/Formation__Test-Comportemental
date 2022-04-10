@@ -803,3 +803,11 @@ interface ProduitRepository
 
 En faisant de cette manière, nous avons la maitrise totale de notre cas d'utilisation.
 Le code répond au besoin spécifié de manière unitaire, minimaliste et collaborative.
+
+
+
+# Accès rapide
+[accueil](../../README.md)
+[Théorie](partie_theorique.md)
+[Demo en TDD](partie_demo.md)
+[Pratique du TDD](partie_pratique.md)

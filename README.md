@@ -38,7 +38,14 @@ Apres avoir vu les notions et un live coding en TDD, c'est à votre tour en peer
 
 # Future Formation ?
 
-- Tests sur le controller et service tiers
+- Tests sur les controllers et services tiers
 - Test de dénouement
 - Mise en place d'une Architecture Hexagonale (clean archi)
 - Qu'est-ce que c'est le DDD ?
+
+
+# Accès rapide
+[accueil](README.md)
+[Théorie](doc/test/partie_theorique.md)
+[Demo en TDD](doc/test/partie_demo.md)
+[Pratique du TDD](doc/test/partie_pratique.md)
