@@ -63,7 +63,7 @@ class CreationPrduitCommandHandlerTest extends TestCase
 
 ### On lance le test, ça plante => Concept du Red Green Refacto (Baby step)
 
-### Grave à l'éditeur, nous pouvons générer les class automatiquement.
+### Grace à l'éditeur, nous pouvons générer les class automatiquement.
 
 Le plus important et le plus dur est de trouver le bon namespace / naming qui fit bien avec le cas d'utilisation
 => Alt + enter  sur le nom de la command
