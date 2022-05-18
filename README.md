@@ -2,7 +2,7 @@
 
 # Formation
 
-Le but de cette formation est de partager une facon d'écrire des tests unitaires qui vont vous guider dans votre développement.
+Le but de cette formation est de partager une façon d'écrire des tests unitaires qui vont vous guider dans votre développement.
 La formation est axée sur la méthodologie et s'accompagnera de quelques notions qu'il faudra approfondir au sein de votre équipe.
 Elle n'a pas pour but de changer votre organisation mais simplement de faire disparaitre les craintes de la mise en place des tests.
 Elle s'adresse à tous les niveaux d'équipes, mais principalement à celles qui se questionnent sur les tests.
@@ -24,7 +24,7 @@ Dans le cadre du présentiel, nous pourrons analyser ensemble votre architecture
 
 # [Théorie](doc/test/partie_theorique.md)
 
-Dans la partie théorique, nous allons parcourir des notions qui vont nous permettre de mieux comprendre les tests et ainsi entammer la démarche du TDD
+Dans la partie théorique, nous allons parcourir des notions qui vont nous permettre de mieux comprendre les tests et ainsi entamer la démarche du TDD
 
 # [Demo en TDD](doc/test/partie_demo.md)
 
