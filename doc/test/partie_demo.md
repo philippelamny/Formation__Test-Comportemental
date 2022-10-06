@@ -21,7 +21,7 @@ Lors que le produit est créé, l'administrateur va etre redirigé vers la page 
 
 Analyse du cas d'utilisation
 
-# Live conding
+# Live coding
 
 ## Étape 1 : création de la "command" ayant les propriétés demandées.
 
