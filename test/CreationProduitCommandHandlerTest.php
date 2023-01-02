@@ -5,7 +5,7 @@ namespace Trung\Ftc\Test;
 
 use PHPUnit\Framework\TestCase;
 
-class CreationPrduitCommandHandlerTest extends TestCase
+class CreationProduitCommandHandlerTest extends TestCase
 {
     private CreationProduitCommandHandler $creationProduitCommandeHandler;
     private CreationProduitJsonPresenteur $creationProduitPresenter;

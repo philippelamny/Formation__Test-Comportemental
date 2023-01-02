@@ -25,7 +25,7 @@ Analyse du cas d'utilisation
 
 ## Étape 1 : création de la "command" ayant les propriétés demandées.
 
-### Creation class CreationPrduitCommandHandlerTest
+### Creation class CreationProduitCommandHandlerTest
 
 ### Creation Methode testInstanciationCreationProduitCommand
 
@@ -86,7 +86,7 @@ class CreationProduitCommand
 ### test : instanciationCreationProduitCommandHandler
 
 ```php
-class CreationPrduitCommandHandlerTest extends TestCase
+class CreationProduitCommandHandlerTest extends TestCase
 {
 
     // .................
@@ -126,7 +126,7 @@ Cela va permettre de gérer les dépendances qu'à un seul endroit.
 
 ```php
 
-class CreationPrduitCommandHandlerTest extends TestCase
+class CreationProduitCommandHandlerTest extends TestCase
 {
     // .....
     protected function setUp(): void
@@ -141,7 +141,7 @@ class CreationPrduitCommandHandlerTest extends TestCase
 ==> Alt + enter sur creationProduitCommandeHandler pour générer la prop en private
 
 ```php
-class CreationPrduitCommandHandlerTest extends TestCase
+class CreationProduitCommandHandlerTest extends TestCase
 {
     // ....
     private CreationProduitCommandHandler $creationProduitCommandeHandler;
@@ -160,7 +160,7 @@ Les suffixes command, commandHandler, Model ne sont généralement pas utiles. E
 
 ```php
 
-class CreationPrduitCommandHandlerTest extends TestCase
+class CreationProduitCommandHandlerTest extends TestCase
 {
     // .....
     /**
